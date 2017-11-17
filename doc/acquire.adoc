@@ -16,17 +16,3 @@ Title: string(//h1[@class="book_title"])
 Author: string(//a[@class="booklink" and starts-with(@href,"/author/")][1])
 Publisher: string(//a[@class="booklink" and starts-with(@href,"/com/")][1])
 
-
-----
-
-Η δίκη:
-9603291528
-http://www.biblionet.gr/main.asp?page=results&isbn=9603291528
-http://www.biblionet.gr/book/66849/Kafka,_Franz,_1883-1924/Η_δίκη
-
-
-
-Το λάθος
-9603291528
-
-http://www.biblionet.gr/book/13945/Σαμαράκης,_Αντώνης,_1919-2003/Το_λάθος

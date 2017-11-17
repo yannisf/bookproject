@@ -16,3 +16,6 @@ Title: string(//h1[@class="book_title"])
 Author: string(//a[@class="booklink" and starts-with(@href,"/author/")][1])
 Publisher: string(//a[@class="booklink" and starts-with(@href,"/com/")][1])
 
+//        String isbn = "9603291528";
+//        String isbn = "9789600316698";
+//        String isbn = "9789608965409";

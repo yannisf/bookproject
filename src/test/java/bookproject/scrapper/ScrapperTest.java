@@ -2,6 +2,7 @@ package bookproject.scrapper;
 
 import org.junit.Test;
 import org.w3c.dom.Document;
+import org.w3c.tidy.Configuration;
 import org.w3c.tidy.Tidy;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,34 +12,68 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ScrapperTest {
 
+    private static final XPath X_PATH = XPathFactory.newInstance().newXPath();
+    private static final String BOOK_LINK_FROM_RESULT_EXPRESSION = "//a[@class=\"booklink\"][1]/@href";
+    private static final String TITLE_EXPRESSION = "string(//h1[@class=\"book_title\"])";
+    private static final String AUTHOR_EXPRESSION = "string(//a[@class=\"booklink\" and starts-with(@href,\"/author/\")][1])";
+    private static final String PUBLISHER_EXPRESSION = "string(//a[@class=\"booklink\" and starts-with(@href,\"/com/\")][1])";
+    private static final String BASE_URL = "http://www.biblionet.gr";
+    private static final String SEARCH_FORMAT = BASE_URL + "/main.asp?page=results&isbn=%s";
+
     @Test
     public void find() throws IOException, XPathExpressionException, ParserConfigurationException {
-        String location = "http://www.biblionet.gr/book/13945/%CE%A3%CE%B1%CE%BC%CE%B1%CF%81%CE%AC%CE%BA%CE%B7%CF%82,_%CE%91%CE%BD%CF%84%CF%8E%CE%BD%CE%B7%CF%82,_1919-2003/%CE%A4%CE%BF_%CE%BB%CE%AC%CE%B8%CE%BF%CF%82";
-        String expression = "string(//a[3])";
-        String expected = "Υπηρεσίες και Προϊόντα";
+//        String isbn = "9603291528";
+//        String isbn = "9789600316698";
+//        String isbn = "9789608965409";
+        String isbn = "9789600403886";
 
-        URL url = new URL(location);
+        String spec1 = String.format(SEARCH_FORMAT, isbn);
+        URL searchUrl = new URL(spec1);
+
         Tidy tidy = createTidy();
+        Document searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
+        String link = getResult(searchDocument, BOOK_LINK_FROM_RESULT_EXPRESSION);
+
+        String spec2 = BASE_URL + link;
+        URL url = new URL(spec2);
+
         Document document = tidy.parseDOM(url.openStream(), null);
-        XPath xPath = XPathFactory.newInstance().newXPath();
-        String s = (String) xPath.compile(expression).evaluate(document, XPathConstants.STRING);
-        assertThat(s).isEqualTo(expected);
+        String title = getResult(document, TITLE_EXPRESSION);
+        String author = getResult(document, AUTHOR_EXPRESSION);
+        String publisher = getResult(document, PUBLISHER_EXPRESSION);
+
+        System.out.println(String.format("spec1: %s", spec1));
+        System.out.println(String.format("spec2: %s", spec2));
+        System.out.println(String.format("%s: %s, %s, %s", isbn, title, author, publisher));
+
+    //        String expectedTitle = "Το λάθος";
+//        String expectedAuthor = "Αντώνης Σαμαράκης";
+//        String expectedPublisher = "Εκδόσεις Καστανιώτη";
+//        assertThat(title).isEqualTo(expectedTitle);
+//        assertThat(author).isEqualTo(expectedAuthor);
+//        assertThat(publisher).isEqualTo(expectedPublisher);
     }
 
-    private Tidy createTidy() {
+    private Tidy createTidy() throws IOException {
         Tidy tidy = new Tidy();
-        tidy.setXmlOut(true);
-        tidy.setForceOutput(true);
-        tidy.setDocType("omit");
-        tidy.setInputEncoding("UTF-8");
-        tidy.setOutputEncoding("UTF-8");
-        tidy.setQuiet(true);
-        tidy.setShowWarnings(false);
+        tidy.setConfigurationFromProps(getTidyConfigurationProperties());
         return tidy;
     }
+
+    private Properties getTidyConfigurationProperties() throws IOException {
+        Properties configurationProperties = new Properties();
+        configurationProperties.load(ScrapperTest.class.getResourceAsStream("/tidy.properties"));
+        return configurationProperties;
+    }
+
+    private String getResult(Document document, String expression) throws XPathExpressionException {
+        return (String) X_PATH.compile(expression).evaluate(document, XPathConstants.STRING);
+    }
+
 }

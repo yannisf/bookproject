@@ -1,0 +1,8 @@
+# Useful links
+
+## Asciidoc
+- http://asciidoctor.org/docs/user-manual/
+
+## Tidy
+- http://www.html-tidy.org/documentation/
+- configuration reference: http://tidy.sourceforge.net/docs/quickref.html

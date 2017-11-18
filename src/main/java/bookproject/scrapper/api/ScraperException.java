@@ -5,5 +5,6 @@ package bookproject.scrapper.api;
  */
 public class ScraperException extends Exception {
     public ScraperException(Exception e) {
+        super(e);
     }
 }

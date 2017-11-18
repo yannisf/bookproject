@@ -1,8 +1,11 @@
-# Useful links
+= Useful links
 
-## Asciidoc
+== Asciidoc
 - http://asciidoctor.org/docs/user-manual/
 
-## Tidy
+== Tidy
 - http://www.html-tidy.org/documentation/
 - configuration reference: http://tidy.sourceforge.net/docs/quickref.html
+
+== Jenkins
+- Generate crumb: `http://jenkins/crumbIssuer/api/xml?tree=crumb`

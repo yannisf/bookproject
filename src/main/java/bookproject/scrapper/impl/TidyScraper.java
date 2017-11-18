@@ -7,11 +7,11 @@ import bookproject.scrapper.api.ScraperException;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
-import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 public class TidyScraper implements Scraper {
 
-    private static final XPath X_PATH = XPathFactory.newInstance().newXPath();
+    private static final XPathFactory X_PATH_FACTORY = XPathFactory.newInstance();
     private static final String TIDY_PROPERTIES = "/tidy.properties";
 
     /**
@@ -70,12 +70,14 @@ public class TidyScraper implements Scraper {
 
     private Properties getTidyConfigurationProperties() throws IOException {
         Properties configurationProperties = new Properties();
-        configurationProperties.load(TidyScraper.class.getResourceAsStream(TIDY_PROPERTIES));
+        try (InputStream resourceAsStream = TidyScraper.class.getResourceAsStream(TIDY_PROPERTIES)) {
+            configurationProperties.load(resourceAsStream);
+        }
         return configurationProperties;
     }
 
     private String getResult(Document document, String expression) throws XPathExpressionException {
-        return (String) X_PATH.compile(expression).evaluate(document, XPathConstants.STRING);
+        return (String) X_PATH_FACTORY.newXPath().compile(expression).evaluate(document, XPathConstants.STRING);
     }
 
 }

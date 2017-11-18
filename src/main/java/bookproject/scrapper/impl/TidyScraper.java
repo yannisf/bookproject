@@ -1,6 +1,7 @@
 package bookproject.scrapper.impl;
 
 import bookproject.scrapper.api.BookInfo;
+import bookproject.scrapper.api.BookInfoProvider;
 import bookproject.scrapper.api.Scraper;
 import bookproject.scrapper.api.ScraperException;
 import org.w3c.dom.Document;
@@ -26,14 +27,14 @@ public class TidyScraper implements Scraper {
      * {@inheritDoc}
      */
     @Override
-    public BookInfo scrape(String isbn) throws ScraperException {
+    public BookInfo scrape(BookInfoProvider provider, String isbn) throws ScraperException {
         BookInfo bookInfo;
         try {
-            String link = getBookLink(isbn);
+            String link = getBookLink(provider, isbn);
             Document document = getBookDocument(link);
-            String title = getResult(document, TITLE_EXPRESSION);
-            String author = getResult(document, AUTHOR_EXPRESSION);
-            String publisher = getResult(document, PUBLISHER_EXPRESSION);
+            String title = getResult(document, provider.getTitleExpression());
+            String author = getResult(document, provider.getAuthorExpression());
+            String publisher = getResult(document, provider.getPublisherExpression());
             bookInfo = BookInfo.builder()
                     .isbn(isbn)
                     .title(title)
@@ -47,17 +48,16 @@ public class TidyScraper implements Scraper {
         return bookInfo;
     }
 
-    private String getBookLink(String isbn) throws IOException, XPathExpressionException {
-        String spec = String.format(SEARCH_FORMAT, isbn);
+    private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException {
+        String spec = String.format(provider.getSearchFormat(), isbn);
         URL searchUrl = new URL(spec);
         Tidy tidy = createTidy();
         Document searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
-        return getResult(searchDocument, BOOK_LINK_FROM_RESULT_EXPRESSION);
+        return getResult(searchDocument, provider.getBookLinkFromResultExpression());
     }
 
     private Document getBookDocument(String link) throws IOException {
-        String spec = BASE_URL + link;
-        URL url = new URL(spec);
+        URL url = new URL(link);
         Tidy tidy = createTidy();
         return tidy.parseDOM(url.openStream(), null);
     }

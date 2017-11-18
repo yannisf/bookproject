@@ -5,6 +5,12 @@ import bookproject.scrapper.api.Scraper;
 import bookproject.scrapper.api.ScraperException;
 import bookproject.scrapper.impl.HtmlUnitScraper;
 import bookproject.scrapper.impl.TidyScraper;
+import bookproject.scrapper.provider.Biblionet;
+import bookproject.scrapper.provider.Politeianet;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.CosineSimilarity;
+import org.apache.commons.text.similarity.JaccardSimilarity;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,7 +25,7 @@ public class ScrapperTest {
     @Test
     public void tidyTest() throws ScraperException {
         Scraper scraper = new TidyScraper();
-        BookInfo bookInfo = scraper.scrape(isbn);
+        BookInfo bookInfo = scraper.scrape(new Politeianet(),isbn);
         System.out.println(bookInfo);
         performAssertions(bookInfo);
     }
@@ -27,16 +33,22 @@ public class ScrapperTest {
     @Test
     public void htmlUnitTest() throws ScraperException {
         Scraper scraper = new HtmlUnitScraper();
-        BookInfo bookInfo = scraper.scrape(isbn);
+        BookInfo bookInfo = scraper.scrape(new Politeianet(), isbn);
         System.out.println(bookInfo);
         performAssertions(bookInfo);
     }
 
     private void performAssertions(BookInfo bookInfo) {
-        assertThat(bookInfo.getIsbn()).isEqualTo(isbn);
-        assertThat(bookInfo.getTitle()).isEqualTo(expectedTitle);
-        assertThat(bookInfo.getAuthor()).isEqualTo(expectedAuthor);
-        assertThat(bookInfo.getPublisher()).isEqualTo(expectedPublisher);
+        assertThat(jaccardSimilarity(bookInfo.getIsbn(), isbn)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInfo.getAuthor(), expectedAuthor)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInfo.getPublisher(), expectedPublisher)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInfo.getTitle(), expectedTitle)).isGreaterThan(0.65);
     }
+
+    private double jaccardSimilarity(String left, String right) {
+        JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
+        return jaccardSimilarity.apply(StringUtils.stripAccents(left.toLowerCase()), StringUtils.stripAccents(right.toLowerCase()));
+    }
+
 
 }

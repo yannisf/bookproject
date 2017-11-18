@@ -1,21 +1,55 @@
-# How to scrap
+= How to scrap
 
-## Search
+== Biblionet
 
-.URL patter to search
-`http://www.biblionet.gr/main.asp?page=results&isbn={isbn}`
+=== Search request
 
-.XPATH to extract link
-//a[@class="booklink"][1]/@href
+```
+GET http://www.biblionet.gr/main.asp?page=results&isbn={isbn}
+```
 
-= Create link
-http://www.biblionet.gr/{extracted_link}
+Link extraction XPATH:: `//a[@class="booklink"][1]/@href`
 
-= Extract info
-Title: string(//h1[@class="book_title"])
-Author: string(//a[@class="booklink" and starts-with(@href,"/author/")][1])
-Publisher: string(//a[@class="booklink" and starts-with(@href,"/com/")][1])
+Book link:: `http://www.biblionet.gr/{extracted_link}`
 
-//        String isbn = "9603291528";
-//        String isbn = "9789600316698";
-//        String isbn = "9789608965409";
+=== Info extraction
+Title:: `string(//h1[@class="book_title"])`
+Author:: `string(//a[@class="booklink" and starts-with(@href,"/author/")][1])`
+Publisher:: `string(//a[@class="booklink" and starts-with(@href,"/com/")][1])`
+
+== Patakis
+
+=== Search request
+```
+POST http://patakis.gr/SearchShop2_new.aspx?flag=1
+Content-Type:application/x-www-form-urlencoded
+
+AttrId14=300&AttrTotal=16&AttrVal14={isbn}
+```
+
+Link extraction XPATH:: `string(//a[@class="linkproduct"][1]/@href)`
+
+Book link:: `http://patakis.gr/{extracted_link}`
+
+.Info extraction
+Title:: `???`
+Author:: `???`
+Publisher:: `???`
+
+== Politeianet
+
+=== Search request
+
+```
+GET https://www.politeianet.gr/index.php?option=com_virtuemart&Itemid=89&advanced=1&isbn={isbn}
+```
+
+Link extraction XPATH:: `string(//a[@class="browse-product-title"][1]/@href)`
+
+Book link:: `{extracted_link}`
+
+=== Info extraction
+Title:: `string(//div[@class="details-right-column"]/h1)`
+Author:: `string(//div[@class="details-right-column"]/b)`
+Publisher:: `string(//div[@class="product-type"]/descendant::*/td[text()="Εκδότης"]/following-sibling::td)`
+

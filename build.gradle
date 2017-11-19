@@ -15,11 +15,26 @@ targetCompatibility = 1.8
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+    options.warnings = true
 }
 
 checkstyle {
     toolVersion = "8.4"
 }
+
+pmd {
+    toolVersion = "5.8.1"
+}
+
+findbugs {
+    toolVersion = "3.0.1"
+}
+
+jacoco {
+    toolVersion = "0.7.9"
+}
+
+test.jacoco.excludes = ['com/steadystate/**']
 
 repositories {
     maven { url "http://repo.maven.apache.org/maven2" }

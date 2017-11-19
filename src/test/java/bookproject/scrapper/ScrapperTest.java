@@ -5,15 +5,13 @@ import bookproject.scrapper.api.Scraper;
 import bookproject.scrapper.api.ScraperException;
 import bookproject.scrapper.impl.HtmlUnitScraper;
 import bookproject.scrapper.impl.TidyScraper;
-import bookproject.scrapper.provider.Biblionet;
 import bookproject.scrapper.provider.Politeianet;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.similarity.CosineSimilarity;
 import org.apache.commons.text.similarity.JaccardSimilarity;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 public class ScrapperTest {
 
@@ -25,7 +23,7 @@ public class ScrapperTest {
     @Test
     public void tidyTest() throws ScraperException {
         Scraper scraper = new TidyScraper();
-        BookInfo bookInfo = scraper.scrape(new Politeianet(),isbn);
+        BookInfo bookInfo = scraper.scrape(new Politeianet(), isbn);
         System.out.println(bookInfo);
         performAssertions(bookInfo);
     }

@@ -9,7 +9,8 @@ public class Politeianet implements BookInfoProvider {
     private static final String BOOK_LINK_FROM_RESULT_EXPRESSION = "string(//a[@class=\"browse-product-title\"][1]/@href)";
     private static final String TITLE_EXPRESSION = "string(//div[@class=\"details-right-column\"]/h1)";
     private static final String AUTHOR_EXPRESSION = "string(//div[@class=\"details-right-column\"]/b)";
-    private static final String PUBLISHER_EXPRESSION = "string(//div[@class=\"product-type\"]/descendant::*/td[text()=\"Εκδότης\"]/following-sibling::td)";
+    private static final String PUBLISHER_EXPRESSION =
+            "string(//div[@class=\"product-type\"]/descendant::*/td[text()=\"Εκδότης\"]/following-sibling::td)";
 
     @Override
     public String getBaseUrl() {

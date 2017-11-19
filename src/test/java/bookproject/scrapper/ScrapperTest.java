@@ -45,7 +45,11 @@ public class ScrapperTest {
 
     private double jaccardSimilarity(String left, String right) {
         JaccardSimilarity jaccardSimilarity = new JaccardSimilarity();
-        return jaccardSimilarity.apply(StringUtils.stripAccents(left.toLowerCase()), StringUtils.stripAccents(right.toLowerCase()));
+        return jaccardSimilarity.apply(normalize(left), normalize(right));
+    }
+
+    private String normalize(String s) {
+        return StringUtils.stripAccents(s.toLowerCase());
     }
 
 

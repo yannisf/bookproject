@@ -1,0 +1,16 @@
+= Gradle
+
+== Common options
+
+[code,bash]
+----
+# gradle tasks <1>
+# gradle help --task jar <2>
+----
+<1> prints available tasks
+<2> prints information on specific task
+
+== Resources
+- https://docs.gradle.org/4.3.1/userguide/userguide.html[User Guide]
+- https://docs.gradle.org/4.3.1/userguide/java_plugin.html[Java Plugin] _from the user guide_
+- https://docs.gradle.org/4.3.1/javadoc/[API]

@@ -1,5 +1,9 @@
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'jacoco'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+
 
 group = 'bookproject'
 version = '0.0.1-SNAPSHOT'
@@ -8,8 +12,13 @@ description = """the book project"""
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
+}
+
+checkstyle {
+    toolVersion = "8.4"
 }
 
 repositories {

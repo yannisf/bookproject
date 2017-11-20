@@ -21,9 +21,10 @@ public class SearchServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            resp.setContentType("text/html; charset=UTF-8");
             String isbn = req.getParameter("isbn");
             BookInfo bookInfo = scraper.scrape(new Politeianet(), isbn);
-            resp.getWriter().println(bookInfo);
+            resp.getWriter().println(String.format("%s: %s, %s, %s", bookInfo.getIsbn(), bookInfo.getTitle(), bookInfo.getAuthor(), bookInfo.getPublisher()));
         } catch (ScraperException e) {
             e.printStackTrace();
         } catch (IOException e) {

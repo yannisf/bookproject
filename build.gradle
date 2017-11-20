@@ -4,6 +4,8 @@ plugins {
     id 'findbugs'
     id 'pmd'
     id 'checkstyle'
+    id "org.akhikhl.gretty" version "2.0.0"
+    id "com.silverjan.plugins.show-graph-plugin" version "1.0.4"
 }
 
 group = 'bookproject'

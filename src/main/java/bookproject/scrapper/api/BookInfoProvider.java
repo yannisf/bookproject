@@ -5,11 +5,15 @@ package bookproject.scrapper.api;
  */
 public interface BookInfoProvider {
 
+    String getName();
+
     String getBaseUrl();
 
     String getSearchFormat();
 
     String getBookLinkFromResultExpression();
+
+    String getIsbnExpression();
 
     String getTitleExpression();
 

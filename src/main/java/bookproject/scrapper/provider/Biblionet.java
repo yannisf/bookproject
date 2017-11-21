@@ -10,6 +10,12 @@ public class Biblionet implements BookInfoProvider {
     private static final String TITLE_EXPRESSION = "string(//h1[@class=\"book_title\"])";
     private static final String AUTHOR_EXPRESSION = "string(//a[@class=\"booklink\" and starts-with(@href,\"/author/\")][1])";
     private static final String PUBLISHER_EXPRESSION = "string(//a[@class=\"booklink\" and starts-with(@href,\"/com/\")][1])";
+    private static final String BIBLIONET_GR = "biblionet.gr";
+
+    @Override
+    public String getName() {
+        return BIBLIONET_GR;
+    }
 
     @Override
     public String getBaseUrl() {
@@ -24,6 +30,11 @@ public class Biblionet implements BookInfoProvider {
     @Override
     public String getBookLinkFromResultExpression() {
         return BASE_URL + BOOK_LINK_FROM_RESULT_EXPRESSION;
+    }
+
+    @Override
+    public String getIsbnExpression() {
+        throw new UnsupportedOperationException("Not yet supported");
     }
 
     @Override

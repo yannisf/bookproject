@@ -1,25 +1,23 @@
 = Gradle
 
-== Common options
+== Execution and tasks
 
 [code,bash]
 ----
-# gradle tasks <1>
-# gradle help --task jar <2>
+$ gradle tasks <1>
+$ gradle help --task jar <2>
+$ gradle dependencies <3>
+$ gradle build <4>
+$ gradle <task> showGraph <4>
+$ gradle projectReport <6>
+$ gradle clean build javadoc jacocoTestReport projectReport <7>
 ----
 <1> prints available tasks
-<2> prints information on specific task
-
-== Tasks
-.Build the application
-----
-$ ./gradlew build
-----
-
-.Display the graph task for a task
-----
-$ ./gradlew <task> showGraph
-----
+<2> prints information for task
+<3> prints dependencies for all configurations
+<4> builds the application
+<5> shows task graph for task
+<6> Generates the reports
 
 == Resources
 - https://docs.gradle.org/4.3.1/userguide/userguide.html[User Guide]

@@ -9,11 +9,15 @@ import bookproject.scrapper.provider.Politeianet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
 public class ScrapperTest {
+
+    private static final Logger LOG = LoggerFactory.getLogger(ScrapperTest.class);
 
     private static final String isbn = "9789600316698";
     private static final String expectedTitle = "Το λάθος";
@@ -30,6 +34,7 @@ public class ScrapperTest {
 
     @Test
     public void htmlUnitTest() throws ScraperException {
+        LOG.info("Running htmlUnitTest");
         Scraper scraper = new HtmlUnitScraper();
         BookInfo bookInfo = scraper.scrape(new Politeianet(), isbn);
         System.out.println(bookInfo);

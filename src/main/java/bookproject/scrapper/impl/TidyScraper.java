@@ -4,6 +4,8 @@ import bookproject.scrapper.api.BookInfo;
 import bookproject.scrapper.api.BookInfoProvider;
 import bookproject.scrapper.api.Scraper;
 import bookproject.scrapper.api.ScraperException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
@@ -20,6 +22,8 @@ import java.util.Properties;
  */
 public class TidyScraper implements Scraper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TidyScraper.class);
+
     private static final XPathFactory X_PATH_FACTORY = XPathFactory.newInstance();
     private static final String TIDY_PROPERTIES = "/tidy.properties";
 
@@ -27,16 +31,23 @@ public class TidyScraper implements Scraper {
      * {@inheritDoc}
      */
     @Override
-    public BookInfo scrape(BookInfoProvider provider, String isbn) throws ScraperException {
+    public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+        LOG.debug("Scraping using Tidy");
         BookInfo bookInfo;
         try {
-            String link = getBookLink(provider, isbn);
+            String link = getBookLink(provider, submittedIsbn);
             Document document = getBookDocument(link);
+            String isbn = getResult(document, provider.getIsbnExpression());
+
+            if (!isbn.equals(submittedIsbn)) {
+                throw new ScraperException("Book information could not be extracted reliably.");
+            }
+
             String title = getResult(document, provider.getTitleExpression());
             String author = getResult(document, provider.getAuthorExpression());
             String publisher = getResult(document, provider.getPublisherExpression());
             bookInfo = BookInfo.builder()
-                    .isbn(isbn)
+                    .isbn(submittedIsbn)
                     .title(title)
                     .author(author)
                     .publisher(publisher)

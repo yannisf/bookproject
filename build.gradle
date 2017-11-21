@@ -1,15 +1,17 @@
 plugins {
     id 'war'
     id 'jacoco'
+    id 'checkstyle'
     id 'findbugs'
     id 'pmd'
-    id 'checkstyle'
+    id 'project-report'
+    id 'build-dashboard'
     id "org.akhikhl.gretty" version "2.0.0"
     id "com.silverjan.plugins.show-graph-plugin" version "1.0.4"
 }
 
 group = 'bookproject'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 description = """the book project"""
 
@@ -48,12 +50,20 @@ repositories {
 }
 
 dependencies {
+    compile 'ch.qos.logback:logback-classic:1.1.2'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     compile group: 'net.sf.jtidy', name: 'jtidy', version: 'r938'
-    compile group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.28'
-    compileOnly 'javax.servlet:javax.servlet-api:4.0.0'
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+    compile 'commons-validator:commons-validator:1.6'
+    compile (group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.28') {
+//        exclude group: 'org.eclipse.jetty.websocket'
+    }
+    compileOnly  group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
+    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
     testCompile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
+
+
+
 }

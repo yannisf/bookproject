@@ -6,6 +6,8 @@ import bookproject.scrapper.api.Scraper;
 import bookproject.scrapper.api.ScraperException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -14,17 +16,26 @@ import java.io.IOException;
  */
 public class HtmlUnitScraper implements Scraper {
 
+    private static final Logger LOG = LoggerFactory.getLogger(HtmlUnitScraper.class);
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public BookInfo scrape(BookInfoProvider provider, String isbn) throws ScraperException {
+    public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+        LOG.debug("Scrapping using HtmlUnit");
         BookInfo bookInfo;
 
         try {
             WebClient client = getWebClient();
-            String link = getBookLink(provider, isbn, client);
+            String link = getBookLink(provider, submittedIsbn, client);
             HtmlPage page = client.getPage(link);
+            String isbn = page.getFirstByXPath(provider.getIsbnExpression());
+
+            if (!isbn.equals(submittedIsbn)) {
+                throw new ScraperException("Book information could not be extracted reliably.");
+            }
+
             String title = page.getFirstByXPath(provider.getTitleExpression());
             String author = page.getFirstByXPath(provider.getAuthorExpression());
             String publisher = page.getFirstByXPath(provider.getPublisherExpression());

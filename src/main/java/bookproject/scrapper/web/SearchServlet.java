@@ -1,4 +1,4 @@
-package bookproject.web;
+package bookproject.scrapper.web;
 
 import bookproject.scrapper.api.BookInfo;
 import bookproject.scrapper.api.Scraper;
@@ -20,9 +20,10 @@ import java.io.IOException;
 @WebServlet(name = "search", urlPatterns = "/search")
 public class SearchServlet extends HttpServlet {
 
+    private static final long serialVersionUID = -6938592751343956358L;
     private static final Logger LOG = LoggerFactory.getLogger(SearchServlet.class);
 
-    private static final Scraper scraper = new TidyScraper();
+    private transient Scraper scraper = new TidyScraper();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -50,6 +51,10 @@ public class SearchServlet extends HttpServlet {
             LOG.error("Generic error: ", e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    void setScraper(Scraper scraper) {
+        this.scraper = scraper;
     }
 
 }

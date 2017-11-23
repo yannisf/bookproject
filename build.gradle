@@ -29,6 +29,12 @@ war {
     archiveName 'scrapper.war'
 }
 
+task allReports(dependsOn: [build, projectReport, jacocoTestReport]) {
+    doLast {
+        println 'allReports task finished'
+    }
+}
+
 checkstyle {
     toolVersion = "8.4"
 }

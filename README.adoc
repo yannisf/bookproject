@@ -1,0 +1,20 @@
+= bookproject
+
+Trivial application to retrieve bibliographic information from providers
+
+== Build
+ $ ./gradlew clean build
+
+== Reports
+
+ $ ./gradlew allReports
+
+NOTE: Custom task using the _build-dashboard_ plugin.
+
+Report available on `build\reports\buildDashboard\index.html`.
+
+== Run
+
+ $ ./gradlew appRun
+
+NOTE: Using the _gretty_ plugin.

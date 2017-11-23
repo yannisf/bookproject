@@ -1,4 +1,4 @@
-package bookproject.scrapper.api;
+package bookproject.scraper.api;
 
 /**
  * Thrown when scraping could not be successful.

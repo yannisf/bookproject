@@ -1,9 +1,9 @@
-package bookproject.scrapper.impl;
+package bookproject.scraper.impl;
 
-import bookproject.scrapper.api.BookInfo;
-import bookproject.scrapper.api.BookInfoProvider;
-import bookproject.scrapper.api.Scraper;
-import bookproject.scrapper.api.ScraperException;
+import bookproject.scraper.api.BookInfo;
+import bookproject.scraper.api.BookInfoProvider;
+import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

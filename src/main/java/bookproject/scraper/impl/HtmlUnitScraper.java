@@ -1,9 +1,9 @@
-package bookproject.scrapper.impl;
+package bookproject.scraper.impl;
 
-import bookproject.scrapper.api.BookInfo;
-import bookproject.scrapper.api.BookInfoProvider;
-import bookproject.scrapper.api.Scraper;
-import bookproject.scrapper.api.ScraperException;
+import bookproject.scraper.api.BookInfo;
+import bookproject.scraper.api.BookInfoProvider;
+import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.slf4j.Logger;

@@ -2,6 +2,15 @@
 
 Trivial application to retrieve bibliographic information from providers
 
+== Spring Boot
+
+.Build and run
+ $ ./gradlew clean bootWar
+ $ java -jar build\libs\scraper-0.0.1-boot.war
+
+.Invoke the application
+ http://localhost:8080/search?isbn=9789600316698
+
 == Build
  $ ./gradlew clean build
 

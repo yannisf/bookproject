@@ -1,6 +1,6 @@
-package bookproject.scrapper.provider;
+package bookproject.scraper.provider;
 
-import bookproject.scrapper.api.BookInfoProvider;
+import bookproject.scraper.api.BookInfoProvider;
 
 public class Biblionet implements BookInfoProvider {
 

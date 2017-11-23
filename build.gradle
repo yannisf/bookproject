@@ -1,19 +1,34 @@
-plugins {
-    id 'java'
-    id 'war'
-    id 'jacoco'
-    id 'checkstyle'
-    id 'findbugs'
-    id 'pmd'
-    id 'idea'
-    id 'project-report'
-    id 'build-dashboard'
-    id "org.akhikhl.gretty" version "2.0.0"
-    id "com.silverjan.plugins.show-graph-plugin" version "1.0.4"
+buildscript {
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+
+    dependencies {
+        classpath "gradle.plugin.org.akhikhl.gretty:gretty:2.0.0"
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M6'
+    }
 }
+
+apply plugin: 'war'
+apply plugin: 'jacoco'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'project-report'
+apply plugin: 'build-dashboard'
+apply plugin: "org.akhikhl.gretty"
+apply plugin: 'org.springframework.boot'
+apply plugin: "io.spring.dependency-management"
 
 group = 'bookproject'
 version = '0.0.1'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
 
 description = """the book project"""
 
@@ -26,8 +41,15 @@ tasks.withType(JavaCompile) {
 }
 
 war {
-    archiveName 'scrapper.war'
+    enabled = true
+    archiveName 'scraper.war'
 }
+
+bootWar {
+    classifier = 'boot'
+    excludeDevtools = false
+}
+
 
 task allReports(dependsOn: [build, projectReport, jacocoTestReport]) {
     doLast {
@@ -63,24 +85,26 @@ jacoco {
 
 test.jacoco.excludes = ['com/steadystate/**']
 
-repositories {
-    maven { url "http://repo.maven.apache.org/maven2" }
+configurations {
+    providedRuntime
 }
 
 dependencies {
-    compile 'ch.qos.logback:logback-classic:1.1.2'
-    compile 'org.slf4j:slf4j-api:1.7.25'
-    compile group: 'net.sf.jtidy', name: 'jtidy', version: 'r938'
+    compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-validator:commons-validator:1.6'
-    compile(group: 'net.sourceforge.htmlunit', name: 'htmlunit', version: '2.28') {
-//        exclude group: 'org.eclipse.jetty.websocket'
-    }
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.16.18'
-    compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.28'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.0'
+
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
     testCompile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
+    runtime 'org.springframework.boot:spring-boot-devtools'
 
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }

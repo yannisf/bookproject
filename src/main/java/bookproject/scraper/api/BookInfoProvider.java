@@ -1,4 +1,4 @@
-package bookproject.scrapper.api;
+package bookproject.scraper.api;
 
 /**
  * Abstraction of an entity that provides book information.

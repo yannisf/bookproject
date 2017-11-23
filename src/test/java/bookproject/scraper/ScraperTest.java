@@ -1,11 +1,11 @@
-package bookproject.scrapper;
+package bookproject.scraper;
 
-import bookproject.scrapper.api.BookInfo;
-import bookproject.scrapper.api.Scraper;
-import bookproject.scrapper.api.ScraperException;
-import bookproject.scrapper.impl.HtmlUnitScraper;
-import bookproject.scrapper.impl.TidyScraper;
-import bookproject.scrapper.provider.Politeianet;
+import bookproject.scraper.api.BookInfo;
+import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
+import bookproject.scraper.impl.HtmlUnitScraper;
+import bookproject.scraper.impl.TidyScraper;
+import bookproject.scraper.provider.Politeianet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.junit.Test;
@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-public class ScrapperTest {
+public class ScraperTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger(ScrapperTest.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScraperTest.class);
 
     private static final String isbn = "9789600316698";
     private static final String expectedTitle = "Το λάθος";

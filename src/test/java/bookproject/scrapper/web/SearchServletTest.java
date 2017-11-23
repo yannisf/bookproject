@@ -36,28 +36,4 @@ public class SearchServletTest {
         assertThat(status.getValue(), equalTo(HttpServletResponse.SC_INTERNAL_SERVER_ERROR));
     }
 
-    @Test
-    public void testScraping() throws ScraperException, ServletException, IOException {
-        String isbn = "9789600316698";
-
-        SearchServlet searchServlet = new SearchServlet();
-
-        HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
-        HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
-        when(httpServletRequest.getParameter(eq("isbn"))).thenReturn(isbn);
-
-        StringWriter writer = new StringWriter();
-        when(httpServletResponse.getWriter()).thenReturn(new PrintWriter(writer));
-
-        Scraper scraper = mock(Scraper.class);
-        BookInfo bookInfo = BookInfo.builder().isbn("i").author("a").title("t").publisher("p").build();
-        when(scraper.scrape(any(BookInfoProvider.class), eq(isbn))).thenReturn(bookInfo);
-
-        searchServlet.setScraper(scraper);
-        searchServlet.doGet(httpServletRequest, httpServletResponse);
-        verify(httpServletResponse, times(1)).setContentType(eq("text/html; charset=UTF-8"));
-        assertThat(StringUtils.chomp(writer.toString()), equalTo("i: t, a, p"));
-
-    }
-
 }

@@ -23,8 +23,6 @@ public class SearchServlet extends HttpServlet {
     private static final long serialVersionUID = -6938592751343956358L;
     private static final Logger LOG = LoggerFactory.getLogger(SearchServlet.class);
 
-    private transient Scraper scraper = new TidyScraper();
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String isbn = StringUtils.EMPTY;
@@ -38,7 +36,7 @@ public class SearchServlet extends HttpServlet {
                 LOG.info("Scrapping for ISBN [{}]", validIsbn);
                 Politeianet provider = new Politeianet();
                 LOG.debug("Using provider [{}]", provider.getName());
-                BookInfo bookInfo = scraper.scrape(provider, isbn);
+                BookInfo bookInfo = new TidyScraper().scrape(provider, isbn);
                 resp.getWriter().println(String.format("%s: %s, %s, %s", bookInfo.getIsbn(), bookInfo.getTitle(), bookInfo.getAuthor(), bookInfo.getPublisher()));
             } else {
                 throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));
@@ -51,10 +49,6 @@ public class SearchServlet extends HttpServlet {
             LOG.error("Generic error: ", e);
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    void setScraper(Scraper scraper) {
-        this.scraper = scraper;
     }
 
 }

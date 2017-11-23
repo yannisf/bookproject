@@ -23,7 +23,7 @@ public class HtmlUnitScraper implements Scraper {
      */
     @Override
     public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
-        LOG.debug("Scrapping using HtmlUnit");
+        LOG.debug("Scraping using HtmlUnit");
         BookInfo bookInfo;
 
         try {

@@ -94,6 +94,7 @@ dependencies {
     compile 'commons-validator:commons-validator:1.6'
     compile 'net.sourceforge.htmlunit:htmlunit:2.28'
     compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
 
     compileOnly 'org.projectlombok:lombok:1.16.18'
     compileOnly 'javax.servlet:javax.servlet-api:4.0.0'

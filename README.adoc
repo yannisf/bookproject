@@ -11,6 +11,11 @@ Trivial application to retrieve bibliographic information from providers
 .Invoke the application
  http://localhost:8080/search?isbn=9789600316698
 
+.Application information
+ http://localhost:8080/application/info
+
+NOTE: Provided through the actuator module
+
 == Build
  $ ./gradlew clean build
 

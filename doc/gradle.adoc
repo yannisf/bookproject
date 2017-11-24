@@ -19,6 +19,9 @@ $ gradle clean build javadoc jacocoTestReport projectReport <7>
 <5> shows task graph for task
 <6> Generates the reports
 
+== Unicode on windows console
+ chcp 65001
+
 == Resources
 - https://docs.gradle.org/4.3.1/userguide/userguide.html[User Guide]
 - https://docs.gradle.org/4.3.1/userguide/java_plugin.html[Java Plugin] _from the user guide_

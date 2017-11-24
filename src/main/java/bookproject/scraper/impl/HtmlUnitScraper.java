@@ -8,12 +8,14 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
 /**
  * Scraper implementation using <i>HtmlUnit</i>.
  */
+@Component("htmlUnitScraper")
 public class HtmlUnitScraper implements Scraper {
 
     private static final Logger LOG = LoggerFactory.getLogger(HtmlUnitScraper.class);
@@ -23,7 +25,7 @@ public class HtmlUnitScraper implements Scraper {
      */
     @Override
     public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
-        LOG.debug("Scraping using HtmlUnit");
+        LOG.info("Scraping using HtmlUnit");
         BookInfo bookInfo;
 
         try {

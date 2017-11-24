@@ -1,7 +1,9 @@
 package bookproject.scraper.provider;
 
 import bookproject.scraper.api.BookInfoProvider;
+import org.springframework.stereotype.Component;
 
+@Component("biblionet")
 public class Biblionet implements BookInfoProvider {
 
     private static final String BASE_URL = "http://www.biblionet.gr";

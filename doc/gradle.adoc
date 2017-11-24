@@ -26,3 +26,4 @@ $ gradle clean build javadoc jacocoTestReport projectReport <7>
 - https://plugins.gradle.org[Gradle plugins repository]
 - http://akhikhl.github.io/gretty-doc/Gretty-tasks[Gretty tasks]
 - http://akhikhl.github.io/gretty-doc/Gretty-configuration.html[Gretty configuration]
+- https://docs.spring.io/spring-boot/docs/2.0.x/gradle-plugin/reference/html/[Spring Boot Gradle Plugin Reference Guide]

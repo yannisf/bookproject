@@ -6,6 +6,7 @@ import bookproject.scraper.api.Scraper;
 import bookproject.scraper.api.ScraperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
 
@@ -20,6 +21,7 @@ import java.util.Properties;
 /**
  * Scraper implementation using <i>HtmlTidy (JTidy)</i>.
  */
+@Component("tidyScraper")
 public class TidyScraper implements Scraper {
 
     private static final Logger LOG = LoggerFactory.getLogger(TidyScraper.class);
@@ -32,7 +34,7 @@ public class TidyScraper implements Scraper {
      */
     @Override
     public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
-        LOG.debug("Scraping using Tidy");
+        LOG.info("Scraping using Tidy");
         BookInfo bookInfo;
         try {
             String link = getBookLink(provider, submittedIsbn);

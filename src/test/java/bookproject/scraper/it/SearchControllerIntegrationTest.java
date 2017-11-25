@@ -26,18 +26,21 @@ public class SearchControllerIntegrationTest {
     @LocalServerPort
     private int port;
 
-    TestRestTemplate restTemplate = new TestRestTemplate();
+    private TestRestTemplate restTemplate = new TestRestTemplate();
 
     @Test
     public void testRetrieveStudentCourse() {
-
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> entity = new HttpEntity<>(null, headers);
-        ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/search?isbn=9789600316698"), HttpMethod.GET, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(
+                createUrlWithPort("/search?isbn=9789600316698"),
+                HttpMethod.GET,
+                entity,
+                String.class);
         LOG.info("Response: [{}]", response.getBody());
     }
 
-    private String createURLWithPort(String uri) {
+    private String createUrlWithPort(String uri) {
         return "http://localhost:" + port + uri;
     }
 }

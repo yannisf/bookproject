@@ -18,13 +18,13 @@ public class ProviderResolver {
     private static final Logger LOG = LoggerFactory.getLogger(ProviderResolver.class);
 
     @Autowired
-    private BookInfoProvider[] providers;
+    BookInfoProvider[] providers;
 
 
-    public BookInfoProvider getProvider(String provider) throws UnknownProviderException {
-        LOG.info("Trying to resolve BookInfoProvider [{}]", provider);
+    public BookInfoProvider resolve(String providerName) throws UnknownProviderException {
+        LOG.info("Trying to resolve BookInfoProvider [{}]", providerName);
         return Stream.of(providers)
-                .filter(p -> p.getName().equals(provider))
+                .filter(p -> p.getName().equals(providerName))
                 .findFirst()
                 .orElseThrow(UnknownProviderException::new);
     }

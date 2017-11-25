@@ -1,9 +1,7 @@
 package bookproject.scraper.impl;
 
-import bookproject.scraper.api.BookInfo;
-import bookproject.scraper.api.BookInfoProvider;
-import bookproject.scraper.api.Scraper;
-import bookproject.scraper.api.ScraperException;
+import bookproject.scraper.api.*;
+import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -22,6 +20,7 @@ import java.util.Properties;
  * Scraper implementation using <i>HtmlTidy (JTidy)</i>.
  */
 @Component("tidyScraper")
+@ScraperQualifier(Tool.TIDY)
 public class TidyScraper implements Scraper {
 
     private static final Logger LOG = LoggerFactory.getLogger(TidyScraper.class);
@@ -38,8 +37,11 @@ public class TidyScraper implements Scraper {
         BookInfo bookInfo;
         try {
             String link = getBookLink(provider, submittedIsbn);
+            if (provider.usesNoHostLinks()) {
+                link = provider.getBaseUrl() + link;
+            }
             Document document = getBookDocument(link);
-            String isbn = getResult(document, provider.getIsbnExpression());
+            String isbn = ISBNValidator.getInstance().validate(getResult(document, provider.getIsbnExpression()));
 
             if (!isbn.equals(submittedIsbn)) {
                 throw new ScraperException("Book information could not be extracted reliably.");
@@ -89,8 +91,13 @@ public class TidyScraper implements Scraper {
         return configurationProperties;
     }
 
-    private String getResult(Document document, String expression) throws XPathExpressionException {
-        return (String) X_PATH_FACTORY.newXPath().compile(expression).evaluate(document, XPathConstants.STRING);
+    private String getResult(Document document, ExtractionExpression expression) throws XPathExpressionException {
+        String result = (String) X_PATH_FACTORY.newXPath().compile(expression.getXpath()).evaluate(document, XPathConstants.STRING);
+        if (expression.getJava() != null) {
+            result = expression.getJava().apply(result);
+        }
+
+        return result;
     }
 
 }

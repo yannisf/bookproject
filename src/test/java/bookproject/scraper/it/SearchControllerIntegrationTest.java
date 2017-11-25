@@ -1,6 +1,6 @@
 package bookproject.scraper.it;
 
-import bookproject.application.Application;
+import bookproject.Application;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,7 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(
+        classes = Application.class,
+        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+)
 public class SearchControllerIntegrationTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(SearchControllerIntegrationTest.class);
@@ -25,12 +28,11 @@ public class SearchControllerIntegrationTest {
 
     TestRestTemplate restTemplate = new TestRestTemplate();
 
-
     @Test
     public void testRetrieveStudentCourse() {
 
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        HttpEntity<String> entity = new HttpEntity<>(null, headers);
         ResponseEntity<String> response = restTemplate.exchange(createURLWithPort("/search?isbn=9789600316698"), HttpMethod.GET, entity, String.class);
         LOG.info("Response: [{}]", response.getBody());
     }

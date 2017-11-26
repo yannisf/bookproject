@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>the::bookproject</title>
+    <link href="styles/bootstrap.css" rel="stylesheet">
+</head>
+
+<body class="container">
+<h1>
+    <small>the::</small>
+    bookproject
+</h1>
+
+<form>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input type="text" class="form-control" id="isbn" placeholder="ISBN or ISBN-13">
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="provider">Provider</label>
+                <select class="form-control" id="provider">
+                    <option></option>
+                    <option>Politeianet</option>
+                    <option>Biblionet</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="tool">Tool</label>
+                <select class="form-control" id="tool">
+                    <option></option>
+                    <option>Tidy</option>
+                    <option>Html Unit</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+
+            <button type="submit" class="btn btn-default">Search</button>
+        </div>
+    </div>
+</form>
+
+<h2>Result</h2>
+<div class="row">
+    <div class="col-md-4">
+        <div id="content" class="well">
+            <div>Content appears here</div>
+        </div>
+    </div>
+</div>
+
+<script src="scripts/jquery.js"></script>
+<script src="scripts/application.js"></script>
+</body>
+
+</html>

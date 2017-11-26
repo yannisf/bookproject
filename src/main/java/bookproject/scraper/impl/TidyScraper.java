@@ -40,6 +40,7 @@ public class TidyScraper implements Scraper {
             if (provider.usesNoHostLinks()) {
                 link = provider.getBaseUrl() + link;
             }
+            LOG.debug("Fetching [{}]", link);
             Document document = getBookDocument(link);
             String isbn = ISBNValidator.getInstance(false).validate(getResult(document, provider.getIsbnExpression()));
 
@@ -55,6 +56,7 @@ public class TidyScraper implements Scraper {
                     .title(title)
                     .author(author)
                     .publisher(publisher)
+                    .sourceUrl(link)
                     .build();
         } catch (IOException | XPathExpressionException e) {
             throw new ScraperException(e);

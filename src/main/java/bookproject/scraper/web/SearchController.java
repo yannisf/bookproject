@@ -39,10 +39,10 @@ public class SearchController {
      * @return book information
      * @throws ScraperException thrown when scraping could not succeed
      */
-    @GetMapping
-    public String search(@RequestParam("isbn") String isbn,
-                         @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
-                         @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
+    @GetMapping(produces = "application/json")
+    public BookInfo searchForJson(@RequestParam("isbn") String isbn,
+                                  @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
+                                  @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
             throws ScraperException {
 
         String validIsbn = ISBNValidator.getInstance(false).validate(isbn);
@@ -59,11 +59,30 @@ public class SearchController {
         } else {
             throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));
         }
+        return bookInfo;
+    }
+
+    /**
+     * Searches for book information.
+     *
+     * @param isbn     the isbn
+     * @param provider the id of the source of the book information
+     * @param scraper  the id of the scraper tool to use
+     * @return book information
+     * @throws ScraperException thrown when scraping could not succeed
+     */
+    @GetMapping(produces = "text/plain")
+    public String searchForString(@RequestParam("isbn") String isbn,
+                                  @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
+                                  @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
+            throws ScraperException {
+        BookInfo bookInfo = this.searchForJson(isbn, provider, scraper);
         return String.format("%s: %s, %s, %s",
                 bookInfo.getIsbn(),
                 bookInfo.getTitle(),
                 bookInfo.getAuthor(),
                 bookInfo.getPublisher());
     }
+
 
 }

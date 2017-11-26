@@ -50,6 +50,7 @@ public class HtmlUnitScraper implements Scraper {
                     .title(title)
                     .author(author)
                     .publisher(publisher)
+                    .sourceUrl(link)
                     .build();
         } catch (IOException e) {
             throw new ScraperException(e);

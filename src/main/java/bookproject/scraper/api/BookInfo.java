@@ -1,7 +1,8 @@
 package bookproject.scraper.api;
 
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * Encapsulates the scraped book information.
@@ -14,5 +15,6 @@ public class BookInfo {
     private String title;
     private String author;
     private String publisher;
+    private String sourceUrl;
 
 }

@@ -21,20 +21,19 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="isbn">ISBN</label>
-                <input type="text" class="form-control" id="isbn" placeholder="ISBN or ISBN-13">
+                <input type="text" class="form-control" id="isbn" placeholder="ISBN ή ISBN-13">
             </div>
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="provider">Provider</label>
+                <label for="provider">Φορέας</label>
                 <select class="form-control" id="provider">
-                    <option></option>
-                    <option>Politeianet</option>
-                    <option>Biblionet</option>
+                    <option value="">--</option>
+                    <option value="politeianet">Politeianet</option>
+                    <option value="biblionet">Biblionet</option>
                 </select>
             </div>
         </div>
@@ -43,31 +42,44 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="tool">Tool</label>
+                <label for="tool">Εργαλείο</label>
                 <select class="form-control" id="tool">
-                    <option></option>
-                    <option>Tidy</option>
-                    <option>Html Unit</option>
+                    <option value="">--</option>
+                    <option value="tidy">Tidy</option>
+                    <option value="htmlunit">Html Unit</option>
                 </select>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-4">
-
-            <button type="submit" class="btn btn-default">Search</button>
+            <span id="submit" class="btn btn-default">Αναζήτηση</span>
+            <span id="clean" class="btn btn-default">Καθαρισμός</span>
         </div>
     </div>
+
 </form>
 
-<h2>Result</h2>
-<div class="row">
-    <div class="col-md-4">
-        <div id="content" class="well">
-            <div>Content appears here</div>
+<h2>Αποτέλεσμα</h2>
+<div class="well">
+    <object id="loader" style="display: none; margin-left: auto; margin-right: auto" data="assets/loader.svg"
+            type="image/svg+xml"></object>
+    <div id="result">
+        <dl class="dl-horizontal">
+            <dt>ISBN</dt>
+            <dd id="resultIsbn"></dd>
+            <dt>Τίτλος</dt>
+            <dd id="title"></dd>
+            <dt>Συγγραφέας</dt>
+            <dd id="author"></dd>
+            <dt>Εκδότης</dt>
+            <dd id="publisher"></dd>
+            <dt>Πηγή</dt>
+            <dd><a id="source" target="_blank"></a></dd>
+        </dl>
         </div>
     </div>
-</div>
 
 <script src="scripts/jquery.js"></script>
 <script src="scripts/application.js"></script>

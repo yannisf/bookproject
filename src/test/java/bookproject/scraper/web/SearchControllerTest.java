@@ -29,7 +29,7 @@ public class SearchControllerTest {
 
     @Test
     public void testInvalidIsbn() throws ScraperException {
-        Throwable invalidIsbn = catchThrowable(() -> searchController.search("X", "Y", "Z"));
+        Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("X", "Y", "Z"));
 
         assertThat(invalidIsbn)
                 .isInstanceOf(ScraperException.class)
@@ -40,7 +40,7 @@ public class SearchControllerTest {
     @Test
     public void testInvalidProvider() throws ScraperException {
         when(providerResolver.resolve(anyString())).thenThrow(new UnknownProviderException());
-        Throwable invalidIsbn = catchThrowable(() -> searchController.search("960-03-4268-7", "Y", "Z"));
+        Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("960-03-4268-7", "Y", "Z"));
 
         assertThat(invalidIsbn)
                 .isInstanceOf(UnknownProviderException.class);
@@ -51,7 +51,7 @@ public class SearchControllerTest {
     public void testInvalidScraper() throws ScraperException {
         when(providerResolver.resolve(anyString())).thenReturn(mock(BookInfoProvider.class));
         when(scraperResolver.resolve(anyString())).thenThrow(new UnknownScraperException("Unknown tool"));
-        Throwable invalidIsbn = catchThrowable(() -> searchController.search("960-03-4268-7", "Y", "Z"));
+        Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("960-03-4268-7", "Y", "Z"));
 
         assertThat(invalidIsbn)
                 .isInstanceOf(UnknownScraperException.class)
@@ -76,7 +76,7 @@ public class SearchControllerTest {
 
         when(scraperResolver.resolve(anyString())).thenReturn(scraper);
 
-        String result = searchController.search(isbn, "Y", "Z");
+        String result = searchController.searchForString(isbn, "Y", "Z");
 
         assertThat(result).isEqualTo("9600342687: T, A, P");
     }

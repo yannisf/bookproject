@@ -56,7 +56,7 @@ bootWar {
 }
 
 
-task allReports(dependsOn: [build, projectReport, jacocoTestReport]) {
+task all(dependsOn: [build, javadoc, projectReport, jacocoTestReport]) {
     doLast {
         println 'allReports task finished'
     }

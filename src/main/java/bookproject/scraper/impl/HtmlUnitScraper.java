@@ -30,6 +30,11 @@ public class HtmlUnitScraper implements Scraper {
         try {
             WebClient client = getWebClient();
             String link = getBookLink(provider, submittedIsbn, client);
+
+            if (provider.usesNoHostLinks()) {
+                link = provider.getBaseUrl() + link;
+            }
+
             HtmlPage page = client.getPage(link);
             String isbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
 

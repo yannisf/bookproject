@@ -41,7 +41,7 @@ public class TidyScraper implements Scraper {
                 link = provider.getBaseUrl() + link;
             }
             Document document = getBookDocument(link);
-            String isbn = ISBNValidator.getInstance().validate(getResult(document, provider.getIsbnExpression()));
+            String isbn = ISBNValidator.getInstance(false).validate(getResult(document, provider.getIsbnExpression()));
 
             if (!isbn.equals(submittedIsbn)) {
                 throw new ScraperException("Book information could not be extracted reliably.");

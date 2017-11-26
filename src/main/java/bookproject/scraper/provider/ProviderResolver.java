@@ -22,7 +22,7 @@ public class ProviderResolver {
 
 
     public BookInfoProvider resolve(String providerName) throws UnknownProviderException {
-        LOG.info("Trying to resolve BookInfoProvider [{}]", providerName);
+        LOG.debug("Resolving BookInfoProvider [{}]", providerName);
         return Stream.of(providers)
                 .filter(p -> p.getName().equals(providerName))
                 .findFirst()

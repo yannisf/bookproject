@@ -31,7 +31,7 @@ public class HtmlUnitScraper implements Scraper {
             WebClient client = getWebClient();
             String link = getBookLink(provider, submittedIsbn, client);
             HtmlPage page = client.getPage(link);
-            String isbn = ISBNValidator.getInstance().validate(getResult(page, provider.getIsbnExpression()));
+            String isbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
 
             if (!isbn.equals(submittedIsbn)) {
                 throw new ScraperException("Book information could not be extracted reliably.");

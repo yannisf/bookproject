@@ -51,7 +51,10 @@ public class SearchController {
         if (validIsbn != null) {
             BookInfoProvider resolvedProvider = providerResolver.resolve(provider);
             Scraper resolvedScraper = scraperResolver.resolve(scraper);
-            LOG.info("Scrapping for ISBN [{}] using provider [{}]", validIsbn, resolvedProvider.getName());
+            LOG.debug("Scrapping for ISBN [{}], using provider [{}], using scraper [{}]",
+                    validIsbn,
+                    resolvedProvider.getName(),
+                    scraper);
             bookInfo = resolvedScraper.scrape(resolvedProvider, validIsbn);
         } else {
             throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));

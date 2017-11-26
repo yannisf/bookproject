@@ -18,6 +18,11 @@ import java.lang.annotation.Target;
 @Qualifier
 public @interface ScraperQualifier {
 
+    /**
+     * Defines the tool used.
+     *
+     * @return the tool id
+     */
     Tool value();
 
 }

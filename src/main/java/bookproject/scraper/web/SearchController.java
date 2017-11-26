@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller to provide scraping facilities
+ * REST controller to provide scraping facilities.
  */
 @RestController
 @RequestMapping("/search")
@@ -68,7 +68,7 @@ public class SearchController {
      * @param isbn     the isbn
      * @param provider the id of the source of the book information
      * @param scraper  the id of the scraper tool to use
-     * @return book information
+     * @return a string respensentation of a book information
      * @throws ScraperException thrown when scraping could not succeed
      */
     @GetMapping(produces = "text/plain")

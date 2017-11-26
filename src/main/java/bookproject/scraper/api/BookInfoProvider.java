@@ -20,7 +20,7 @@ public interface BookInfoProvider {
     String getBaseUrl();
 
     /**
-     * The string format that searches against the provider, using the isbn
+     * The string format that searches against the provider, using the isbn.
      *
      * @return the search format
      */
@@ -64,6 +64,8 @@ public interface BookInfoProvider {
     ExtractionExpression getPublisherExpression();
 
     /**
+     * Used to distinguish between providers that use fully qualified URLs and those that do not.
+     *
      * @return true when extracted links (href) do not include the protocol and host
      */
     boolean usesNoHostLinks();

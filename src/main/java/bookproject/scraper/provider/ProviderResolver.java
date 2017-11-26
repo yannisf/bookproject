@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Stream;
 
 /**
- * Resolves {@link BookInfoProvider} from name;
+ * Resolves {@link BookInfoProvider} from name.
  */
 @Component
 public class ProviderResolver {

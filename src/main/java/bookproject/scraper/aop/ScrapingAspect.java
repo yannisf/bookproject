@@ -11,13 +11,16 @@ import org.springframework.util.StopWatch;
 
 import java.util.stream.Stream;
 
+/**
+ * Search cross cutting concerns.
+ */
 @Aspect
 @Component
 public class ScrapingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScrapingAspect.class);
 
-    @Pointcut("execution(public * search(..))")
+    @Pointcut("execution(public * bookproject.scraper.web.SearchController.search*(..))")
     private void search() {
     }
 

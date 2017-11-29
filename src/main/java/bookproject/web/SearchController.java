@@ -1,13 +1,8 @@
 package bookproject.web;
 
-import bookproject.repository.BookRepository;
 import bookproject.scraper.api.BookInfo;
-import bookproject.scraper.api.BookInfoProvider;
-import bookproject.scraper.api.Scraper;
 import bookproject.scraper.api.ScraperException;
-import bookproject.scraper.impl.ScraperResolver;
-import bookproject.scraper.provider.ProviderResolver;
-import org.apache.commons.validator.routines.ISBNValidator;
+import bookproject.service.BookInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +21,7 @@ public class SearchController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
-    private ScraperResolver scraperResolver;
-
-    @Autowired
-    private ProviderResolver providerResolver;
-
-    @Autowired
-    private BookRepository bookRepository;
+    private BookInfoService bookInfoService;
 
     /**
      * Searches for book information.
@@ -48,19 +37,9 @@ public class SearchController {
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
             throws ScraperException {
+
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
-
-        String validIsbn = ISBNValidator.getInstance(false).validate(isbn);
-
-        BookInfo bookInfo;
-        if (validIsbn != null) {
-            BookInfoProvider resolvedProvider = providerResolver.resolve(provider);
-            Scraper resolvedScraper = scraperResolver.resolve(scraper);
-            bookInfo = bookRepository.search(validIsbn, resolvedProvider, resolvedScraper);
-        } else {
-            throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));
-        }
-        return bookInfo;
+        return bookInfoService.search(isbn, provider, scraper);
     }
 
     /**

@@ -49,7 +49,9 @@ war {
     archiveName 'scraper.war'
 }
 
-
+test {
+    ignoreFailures = true
+}
 
 bootRun {
     jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"]

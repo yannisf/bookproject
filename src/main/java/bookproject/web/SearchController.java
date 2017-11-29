@@ -1,5 +1,6 @@
-package bookproject.scraper.web;
+package bookproject.web;
 
+import bookproject.repository.BookRepository;
 import bookproject.scraper.api.BookInfo;
 import bookproject.scraper.api.BookInfoProvider;
 import bookproject.scraper.api.Scraper;
@@ -30,6 +31,9 @@ public class SearchController {
     @Autowired
     private ProviderResolver providerResolver;
 
+    @Autowired
+    private BookRepository bookRepository;
+
     /**
      * Searches for book information.
      *
@@ -44,6 +48,7 @@ public class SearchController {
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
             throws ScraperException {
+        LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
 
         String validIsbn = ISBNValidator.getInstance(false).validate(isbn);
 
@@ -51,11 +56,7 @@ public class SearchController {
         if (validIsbn != null) {
             BookInfoProvider resolvedProvider = providerResolver.resolve(provider);
             Scraper resolvedScraper = scraperResolver.resolve(scraper);
-            LOG.debug("Scrapping for ISBN [{}], using provider [{}], using scraper [{}]",
-                    validIsbn,
-                    resolvedProvider.getName(),
-                    scraper);
-            bookInfo = resolvedScraper.scrape(resolvedProvider, validIsbn);
+            bookInfo = bookRepository.search(validIsbn, resolvedProvider, resolvedScraper);
         } else {
             throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));
         }

@@ -1,4 +1,4 @@
-package bookproject.scraper.web;
+package bookproject.web;
 
 import bookproject.scraper.api.*;
 import bookproject.scraper.impl.ScraperResolver;

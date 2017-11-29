@@ -20,8 +20,9 @@ public class ScrapingAspect {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScrapingAspect.class);
 
-    @Pointcut("execution(public * bookproject.scraper.web.SearchController.search*(..))")
+    @Pointcut("execution(public * bookproject.web.SearchController.search*(..))")
     private void search() {
+        //Pointcut definition
     }
 
     @Around("search()")

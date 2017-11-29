@@ -1,11 +1,11 @@
 buildscript {
     repositories {
-//        maven { url "https://plugins.gradle.org/m2/" }
-        maven { url 'https://repo.spring.io/libs-milestone' }
+        mavenCentral()
+        maven { url 'http://repo.spring.io/snapshot' }
+        maven { url 'http://repo.spring.io/milestone' }
     }
 
     dependencies {
-//        classpath "gradle.plugin.org.akhikhl.gretty:gretty:2.0.0"
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M6'
     }
 }
@@ -17,7 +17,6 @@ apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'project-report'
 apply plugin: 'build-dashboard'
-//apply plugin: "org.akhikhl.gretty"
 apply plugin: 'org.springframework.boot'
 apply plugin: "io.spring.dependency-management"
 
@@ -49,6 +48,13 @@ war {
     enabled = true
     archiveName 'scraper.war'
 }
+
+
+
+bootRun {
+    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"]
+}
+
 
 bootWar {
     classifier = 'boot'
@@ -101,6 +107,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-aop'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
 
     compileOnly 'org.projectlombok:lombok'
 

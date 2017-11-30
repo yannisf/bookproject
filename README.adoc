@@ -4,17 +4,26 @@ Trivial application to retrieve bibliographic information from providers
 
 == Spring Boot
 
-.Build and run
+.Run within gradle
+ $ ./gradlew bootRun
+
+.Build war and run
  $ ./gradlew clean bootWar
  $ java -jar build\libs\scraper-0.0.1-boot.war
 
-.Invoke the application
+.Basic UI
+ http://localhost:8080/
+
+.Invoke the REST API
  http://localhost:8080/search?isbn=9789600316698
 
 .Application information
  http://localhost:8080/application/info
 
 NOTE: Provided through the actuator module
+
+.H2 console
+ http://localhost:8080/h2-console/
 
 == Build
  $ ./gradlew clean build
@@ -26,9 +35,3 @@ NOTE: Provided through the actuator module
 NOTE: Custom task using the _build-dashboard_ plugin.
 
 Report available on `build\reports\buildDashboard\index.html`.
-
-== Run
-
- $ ./gradlew appRun
-
-NOTE: Using the _gretty_ plugin.

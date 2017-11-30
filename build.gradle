@@ -55,6 +55,7 @@ test {
 
 bootRun {
     jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"]
+    args = ["--debug"]
 }
 
 
@@ -118,22 +119,24 @@ artifacts {
 }
 
 dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+
     compile 'net.sf.jtidy:jtidy:r938'
     compile 'commons-validator:commons-validator:1.6'
     compile 'net.sourceforge.htmlunit:htmlunit:2.28'
-    compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
-    compile 'org.springframework.boot:spring-boot-starter-aop'
-    compile 'org.springframework.boot:spring-boot-starter-actuator'
-    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'com.h2database:h2'
 
     compileOnly 'org.projectlombok:lombok'
 
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
     testCompile group: 'org.apache.commons', name: 'commons-text', version: '1.1'
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     runtime 'org.springframework.boot:spring-boot-devtools'
 

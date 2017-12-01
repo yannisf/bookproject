@@ -32,9 +32,9 @@ public class TidyScraper implements Scraper {
      * {@inheritDoc}
      */
     @Override
-    public BookInfo scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+    public BookInfoValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
         LOG.info("Scraping using Tidy");
-        BookInfo bookInfo;
+        BookInfoValue bookInfoValue;
         try {
             String link = getBookLink(provider, submittedIsbn);
             if (provider.usesNoHostLinks()) {
@@ -51,7 +51,7 @@ public class TidyScraper implements Scraper {
             String title = getResult(document, provider.getTitleExpression());
             String author = getResult(document, provider.getAuthorExpression());
             String publisher = getResult(document, provider.getPublisherExpression());
-            bookInfo = BookInfo.builder()
+            bookInfoValue = BookInfoValue.builder()
                     .isbn(submittedIsbn)
                     .title(title)
                     .author(author)
@@ -62,7 +62,7 @@ public class TidyScraper implements Scraper {
             throw new ScraperException(e);
         }
 
-        return bookInfo;
+        return bookInfoValue;
     }
 
     private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException {

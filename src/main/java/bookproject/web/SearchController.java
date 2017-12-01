@@ -1,6 +1,6 @@
 package bookproject.web;
 
-import bookproject.scraper.api.BookInfo;
+import bookproject.scraper.api.BookInfoValue;
 import bookproject.scraper.api.ScraperException;
 import bookproject.service.BookInfoService;
 import org.slf4j.Logger;
@@ -33,9 +33,9 @@ public class SearchController {
      * @throws ScraperException thrown when scraping could not succeed
      */
     @GetMapping(produces = "application/json")
-    public BookInfo searchForJson(@RequestParam("isbn") String isbn,
-                                  @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
-                                  @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
+    public BookInfoValue searchForJson(@RequestParam("isbn") String isbn,
+                                       @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
+                                       @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
             throws ScraperException {
 
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
@@ -56,12 +56,12 @@ public class SearchController {
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
             throws ScraperException {
-        BookInfo bookInfo = this.searchForJson(isbn, provider, scraper);
+        BookInfoValue bookInfoValue = this.searchForJson(isbn, provider, scraper);
         return String.format("%s: %s, %s, %s",
-                bookInfo.getIsbn(),
-                bookInfo.getTitle(),
-                bookInfo.getAuthor(),
-                bookInfo.getPublisher());
+                bookInfoValue.getIsbn(),
+                bookInfoValue.getTitle(),
+                bookInfoValue.getAuthor(),
+                bookInfoValue.getPublisher());
     }
 
 

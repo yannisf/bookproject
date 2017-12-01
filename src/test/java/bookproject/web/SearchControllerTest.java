@@ -61,7 +61,7 @@ public class SearchControllerTest {
     @Test
     public void testSearch() throws ScraperException {
         String isbn = "9600342687";
-        BookInfo bookInfo = BookInfo.builder()
+        BookInfoValue bookInfoValue = BookInfoValue.builder()
                 .isbn(isbn)
                 .author("A")
                 .title("T")
@@ -72,7 +72,7 @@ public class SearchControllerTest {
         when(providerResolver.resolve(anyString())).thenReturn(bookInfoProvider);
 
         Scraper scraper = mock(Scraper.class);
-        when(scraper.scrape(any(), eq(isbn))).thenReturn(bookInfo);
+        when(scraper.scrape(any(), eq(isbn))).thenReturn(bookInfoValue);
 
         when(scraperResolver.resolve(anyString())).thenReturn(scraper);
 

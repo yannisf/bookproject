@@ -3,13 +3,14 @@ package bookproject.scraper.api;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 
 /**
  * Encapsulates the scraped book information.
  */
-@Data
+@Value
 @Builder
-public class BookInfo {
+public class BookInfoValue {
 
     private String isbn;
     private String title;

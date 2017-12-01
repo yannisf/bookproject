@@ -1,21 +1,14 @@
-package bookproject;
+package bookproject.persistence;
 
 import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.io.Serializable;
 
 @Entity
 @Data
 @Builder
-public class BookInformation implements Serializable {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class BookInformation extends BaseEntity {
 
     private String isbn;
 
@@ -26,6 +19,8 @@ public class BookInformation implements Serializable {
     private String author;
 
     private String publisher;
+
+    private String provider;
 
     private String url;
 

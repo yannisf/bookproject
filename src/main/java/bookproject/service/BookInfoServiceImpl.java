@@ -29,7 +29,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     private BookInformationRepository bookInformationRepository;
 
     @Override
-    @Cacheable("books")
+    @Cacheable(value = "books", key = "#isbn + ':' + #provider")
     public BookInfoValue search(String isbn, String provider, String tool) throws ScraperException {
         String validIsbn = ISBNValidator.getInstance(false).validate(isbn);
 

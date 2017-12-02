@@ -1,11 +1,14 @@
 package bookproject.scraper.impl;
 
 import bookproject.scraper.api.*;
+import bookproject.service.IsbnService;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,6 +22,9 @@ public class HtmlUnitScraper implements Scraper {
 
     private static final Logger LOG = LoggerFactory.getLogger(HtmlUnitScraper.class);
 
+    @Autowired
+    private IsbnService isbnService;
+
     /**
      * {@inheritDoc}
      */
@@ -30,11 +36,6 @@ public class HtmlUnitScraper implements Scraper {
         try {
             WebClient client = getWebClient();
             String link = getBookLink(provider, submittedIsbn, client);
-
-            if (provider.usesNoHostLinks()) {
-                link = provider.getBaseUrl() + link;
-            }
-
             HtmlPage page = client.getPage(link);
             String isbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
 
@@ -59,10 +60,27 @@ public class HtmlUnitScraper implements Scraper {
         return bookInfoValue;
     }
 
-    private String getBookLink(BookInfoProvider provider, String isbn, WebClient client) throws IOException {
+    private String getBookLink(BookInfoProvider provider, String isbn, WebClient client) throws IOException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
         HtmlPage page = client.getPage(spec);
-        return getResult(page, provider.getBookLinkFromResultExpression());
+        String link = getResult(page, provider.getBookLinkFromResultExpression());
+
+        if (StringUtils.isBlank(link) && isbnService.isIsbn10(isbn)) {
+            isbn = isbnService.convertToIsbn13(isbn);
+            spec = String.format(provider.getSearchFormat(), isbn);
+            page = client.getPage(spec);
+            link = getResult(page, provider.getBookLinkFromResultExpression());
+        }
+
+        if (StringUtils.isBlank(link)) {
+            throw new ScraperException("Book not found");
+        }
+
+        if (provider.usesNoHostLinks()) {
+            link = provider.getBaseUrl() + link;
+        }
+
+        return link;
     }
 
     private WebClient getWebClient() {

@@ -1,9 +1,12 @@
 package bookproject.scraper.impl;
 
 import bookproject.scraper.api.*;
+import bookproject.service.IsbnService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.tidy.Tidy;
@@ -27,6 +30,9 @@ public class TidyScraper implements Scraper {
 
     private static final XPathFactory X_PATH_FACTORY = XPathFactory.newInstance();
     private static final String TIDY_PROPERTIES = "/tidy.properties";
+
+    @Autowired
+    private IsbnService isbnService;
 
     /**
      * {@inheritDoc}
@@ -65,12 +71,30 @@ public class TidyScraper implements Scraper {
         return bookInfoValue;
     }
 
-    private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException {
+    private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
         URL searchUrl = new URL(spec);
         Tidy tidy = createTidy();
         Document searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
-        return getResult(searchDocument, provider.getBookLinkFromResultExpression());
+        String link = getResult(searchDocument, provider.getBookLinkFromResultExpression());
+
+        if (StringUtils.isBlank(link) && isbnService.isIsbn10(isbn)) {
+            isbn = isbnService.convertToIsbn13(isbn);
+            spec = String.format(provider.getSearchFormat(), isbn);
+            searchUrl = new URL(spec);
+            searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
+            link = getResult(searchDocument, provider.getBookLinkFromResultExpression());
+        }
+
+        if (StringUtils.isBlank(link)) {
+            throw new ScraperException("Book not found");
+        }
+
+        if (provider.usesNoHostLinks()) {
+            link = provider.getBaseUrl() + link;
+        }
+
+        return link;
     }
 
     private Document getBookDocument(String link) throws IOException {

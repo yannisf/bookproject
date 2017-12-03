@@ -2,7 +2,6 @@ package bookproject.scraper.api;
 
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
 
 /**
@@ -10,12 +9,13 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class BookInfoValue {
+public class BookInformationValue {
 
     private String isbn;
     private String title;
     private String author;
     private String publisher;
+    private String provider;
     private String sourceUrl;
 
 }

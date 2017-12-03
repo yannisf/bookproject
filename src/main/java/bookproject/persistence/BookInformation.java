@@ -1,13 +1,14 @@
 package bookproject.persistence;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class BookInformation extends BaseEntity {
 
     private String isbn;

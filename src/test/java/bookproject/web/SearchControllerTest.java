@@ -28,7 +28,7 @@ public class SearchControllerTest {
     private SearchController searchController;
 
     @Test
-    public void testInvalidIsbn() throws ScraperException {
+    public void testInvalidIsbn() {
         Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("X", "Y", "Z"));
 
         assertThat(invalidIsbn)
@@ -38,7 +38,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testInvalidProvider() throws ScraperException {
+    public void testInvalidProvider() throws UnknownProviderException {
         when(providerResolver.resolve(anyString())).thenThrow(new UnknownProviderException());
         Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("960-03-4268-7", "Y", "Z"));
 
@@ -48,7 +48,7 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testInvalidScraper() throws ScraperException {
+    public void testInvalidScraper() throws UnknownProviderException, UnknownScraperException {
         when(providerResolver.resolve(anyString())).thenReturn(mock(BookInfoProvider.class));
         when(scraperResolver.resolve(anyString())).thenThrow(new UnknownScraperException("Unknown tool"));
         Throwable invalidIsbn = catchThrowable(() -> searchController.searchForString("960-03-4268-7", "Y", "Z"));
@@ -59,9 +59,9 @@ public class SearchControllerTest {
     }
 
     @Test
-    public void testSearch() throws ScraperException {
+    public void testSearch() throws ScraperException, UnknownScraperException, UnknownProviderException, InvalidIsbnException {
         String isbn = "9600342687";
-        BookInfoValue bookInfoValue = BookInfoValue.builder()
+        BookInformationValue bookInformationValue = BookInformationValue.builder()
                 .isbn(isbn)
                 .author("A")
                 .title("T")
@@ -72,7 +72,7 @@ public class SearchControllerTest {
         when(providerResolver.resolve(anyString())).thenReturn(bookInfoProvider);
 
         Scraper scraper = mock(Scraper.class);
-        when(scraper.scrape(any(), eq(isbn))).thenReturn(bookInfoValue);
+        when(scraper.scrape(any(), eq(isbn))).thenReturn(bookInformationValue);
 
         when(scraperResolver.resolve(anyString())).thenReturn(scraper);
 

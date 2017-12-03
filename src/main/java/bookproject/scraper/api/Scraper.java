@@ -13,6 +13,6 @@ public interface Scraper {
      * @return book information
      * @throws ScraperException exception while scraping
      */
-    BookInfoValue scrape(BookInfoProvider provider, String isbn) throws ScraperException;
+    BookInformationValue scrape(BookInfoProvider provider, String isbn) throws ScraperException;
 
 }

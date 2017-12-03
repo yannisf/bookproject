@@ -28,7 +28,7 @@ public interface IsbnService {
      * @param isbn the provided ISBN
      * @return the cleaned ISBN
      */
-    String cleanIsbn(String isbn);
+    String clean(String isbn);
 
     /**
      * Converts provided ISBN to ISBN13.
@@ -36,5 +36,13 @@ public interface IsbnService {
      * @return the converted ISBN13
      */
     String convertToIsbn13(String isbn);
+
+    /**
+     * Converts provided ISBN13 to ISBN.
+     *
+     * @param isbn the provided ISBN
+     * @return the converted ISBN
+     */
+    String convertToIsbn10(String isbn);
 
 }

@@ -1,7 +1,6 @@
 package bookproject.web;
 
-import bookproject.scraper.api.BookInfoValue;
-import bookproject.scraper.api.ScraperException;
+import bookproject.scraper.api.*;
 import bookproject.service.BookInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,10 +32,10 @@ public class SearchController {
      * @throws ScraperException thrown when scraping could not succeed
      */
     @GetMapping(produces = "application/json")
-    public BookInfoValue searchForJson(@RequestParam("isbn") String isbn,
-                                       @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
-                                       @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException {
+    public BookInformationValue searchForJson(@RequestParam("isbn") String isbn,
+                                              @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
+                                              @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
+            throws ScraperException, UnknownScraperException, UnknownProviderException, InvalidIsbnException {
 
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
         return bookInfoService.search(isbn, provider, scraper);
@@ -55,13 +54,13 @@ public class SearchController {
     public String searchForString(@RequestParam("isbn") String isbn,
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException {
-        BookInfoValue bookInfoValue = this.searchForJson(isbn, provider, scraper);
+            throws ScraperException, UnknownScraperException, UnknownProviderException, InvalidIsbnException {
+        BookInformationValue bookInformationValue = this.searchForJson(isbn, provider, scraper);
         return String.format("%s: %s, %s, %s",
-                bookInfoValue.getIsbn(),
-                bookInfoValue.getTitle(),
-                bookInfoValue.getAuthor(),
-                bookInfoValue.getPublisher());
+                bookInformationValue.getIsbn(),
+                bookInformationValue.getTitle(),
+                bookInformationValue.getAuthor(),
+                bookInformationValue.getPublisher());
     }
 
 

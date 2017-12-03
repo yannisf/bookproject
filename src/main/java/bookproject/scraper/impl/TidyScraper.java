@@ -3,7 +3,6 @@ package bookproject.scraper.impl;
 import bookproject.scraper.api.*;
 import bookproject.service.IsbnService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,42 +33,40 @@ public class TidyScraper implements Scraper {
     @Autowired
     private IsbnService isbnService;
 
+    @Autowired
+    private ExtractionValidator extractionValidator;
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public BookInfoValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+    public BookInformationValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
         LOG.info("Scraping using Tidy");
-        BookInfoValue bookInfoValue;
+        BookInformationValue bookInformationValue;
         try {
             String link = getBookLink(provider, submittedIsbn);
-            if (provider.usesNoHostLinks()) {
-                link = provider.getBaseUrl() + link;
-            }
             LOG.debug("Fetching [{}]", link);
             Document document = getBookDocument(link);
-            String isbn = ISBNValidator.getInstance(false).validate(getResult(document, provider.getIsbnExpression()));
-
-            if (!isbn.equals(submittedIsbn)) {
-                throw new ScraperException("Book information could not be extracted reliably.");
-            }
-
+            String extractedIsbn = isbnService.clean(getResult(document, provider.getIsbnExpression()));
+            extractionValidator.validate(submittedIsbn, extractedIsbn);
             String title = getResult(document, provider.getTitleExpression());
             String author = getResult(document, provider.getAuthorExpression());
             String publisher = getResult(document, provider.getPublisherExpression());
-            bookInfoValue = BookInfoValue.builder()
+            bookInformationValue = BookInformationValue.builder()
                     .isbn(submittedIsbn)
                     .title(title)
                     .author(author)
                     .publisher(publisher)
+                    .provider(provider.getName())
                     .sourceUrl(link)
                     .build();
         } catch (IOException | XPathExpressionException e) {
             throw new ScraperException(e);
         }
 
-        return bookInfoValue;
+        return bookInformationValue;
     }
+
 
     private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);

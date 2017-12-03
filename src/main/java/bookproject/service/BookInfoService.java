@@ -1,8 +1,8 @@
 package bookproject.service;
 
-import bookproject.scraper.api.BookInfoValue;
-import bookproject.scraper.api.ScraperException;
+import bookproject.scraper.api.*;
 
 public interface BookInfoService {
-    BookInfoValue search(String isbn, String provider, String tool) throws ScraperException;
+    BookInformationValue search(String isbn, String provider, String tool)
+            throws ScraperException, UnknownProviderException, UnknownScraperException, InvalidIsbnException;
 }

@@ -25,39 +25,40 @@ public class HtmlUnitScraper implements Scraper {
     @Autowired
     private IsbnService isbnService;
 
+    @Autowired
+    private ExtractionValidator extractionValidator;
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public BookInfoValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+    public BookInformationValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
         LOG.info("Scraping using HtmlUnit");
-        BookInfoValue bookInfoValue;
+        BookInformationValue bookInformationValue;
 
         try {
             WebClient client = getWebClient();
             String link = getBookLink(provider, submittedIsbn, client);
+            LOG.debug("Fetching [{}]", link);
             HtmlPage page = client.getPage(link);
-            String isbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
-
-            if (!isbn.equals(submittedIsbn)) {
-                throw new ScraperException("Book information could not be extracted reliably.");
-            }
-
+            String extractedIsbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
+            extractionValidator.validate(submittedIsbn, extractedIsbn);
             String title = getResult(page, provider.getTitleExpression());
             String author = getResult(page, provider.getAuthorExpression());
             String publisher = getResult(page, provider.getPublisherExpression());
-            bookInfoValue = BookInfoValue.builder()
-                    .isbn(isbn)
+            bookInformationValue = BookInformationValue.builder()
+                    .isbn(extractedIsbn)
                     .title(title)
                     .author(author)
                     .publisher(publisher)
+                    .provider(provider.getName())
                     .sourceUrl(link)
                     .build();
         } catch (IOException e) {
             throw new ScraperException(e);
         }
 
-        return bookInfoValue;
+        return bookInformationValue;
     }
 
     private String getBookLink(BookInfoProvider provider, String isbn, WebClient client) throws IOException, ScraperException {

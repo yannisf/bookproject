@@ -1,5 +1,9 @@
 $(document).ready(() => {
 
+    $('#clean-isbn').bind("click", () => {
+        $('#isbn').val('');
+    });
+
     $('#result').css('display', 'none');
     
     $("#clean").bind("click", () => {

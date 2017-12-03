@@ -1,6 +1,6 @@
 package bookproject.scraper;
 
-import bookproject.scraper.api.BookInfoValue;
+import bookproject.scraper.api.BookInformationValue;
 import bookproject.scraper.api.Scraper;
 import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.impl.HtmlUnitScraper;
@@ -27,25 +27,25 @@ public class ScraperTest {
     @Test
     public void tidyTest() throws ScraperException {
         Scraper scraper = new TidyScraper();
-        BookInfoValue bookInfoValue = scraper.scrape(new Politeianet(), isbn);
-        System.out.println(bookInfoValue);
-        performAssertions(bookInfoValue);
+        BookInformationValue bookInformationValue = scraper.scrape(new Politeianet(), isbn);
+        System.out.println(bookInformationValue);
+        performAssertions(bookInformationValue);
     }
 
     @Test
     public void htmlUnitTest() throws ScraperException {
         LOG.info("Running htmlUnitTest");
         Scraper scraper = new HtmlUnitScraper();
-        BookInfoValue bookInfoValue = scraper.scrape(new Politeianet(), isbn);
-        System.out.println(bookInfoValue);
-        performAssertions(bookInfoValue);
+        BookInformationValue bookInformationValue = scraper.scrape(new Politeianet(), isbn);
+        System.out.println(bookInformationValue);
+        performAssertions(bookInformationValue);
     }
 
-    private void performAssertions(BookInfoValue bookInfoValue) {
-        assertThat(jaccardSimilarity(bookInfoValue.getIsbn(), isbn)).isGreaterThan(0.65);
-        assertThat(jaccardSimilarity(bookInfoValue.getAuthor(), expectedAuthor)).isGreaterThan(0.65);
-        assertThat(jaccardSimilarity(bookInfoValue.getPublisher(), expectedPublisher)).isGreaterThan(0.65);
-        assertThat(jaccardSimilarity(bookInfoValue.getTitle(), expectedTitle)).isGreaterThan(0.65);
+    private void performAssertions(BookInformationValue bookInformationValue) {
+        assertThat(jaccardSimilarity(bookInformationValue.getIsbn(), isbn)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInformationValue.getAuthor(), expectedAuthor)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInformationValue.getPublisher(), expectedPublisher)).isGreaterThan(0.65);
+        assertThat(jaccardSimilarity(bookInformationValue.getTitle(), expectedTitle)).isGreaterThan(0.65);
     }
 
     private double jaccardSimilarity(String left, String right) {

@@ -9,7 +9,7 @@ Trivial application to retrieve bibliographic information from providers
 
 .Build war and run
  $ ./gradlew clean bootWar
- $ java -jar build\libs\scraper-0.0.1-boot.war
+ $ java -jar build/libs/scraper-0.0.1-boot.war
 
 .Basic UI
  http://localhost:8080/
@@ -22,8 +22,11 @@ Trivial application to retrieve bibliographic information from providers
 
 NOTE: Provided through the actuator module
 
-.H2 console
- http://localhost:8080/h2-console/
+== Database
+The application uses the H2 database at its persistence layer. Before starting the application an H2 database in server mode must be running.
+
+.Start H2
+ $ java -cp h2.jar org.h2.tools.Server
 
 == Build
  $ ./gradlew clean build

@@ -1,9 +1,8 @@
 package bookproject.scraper.impl;
 
 import bookproject.scraper.api.Scraper;
-import bookproject.ScraperQualifier;
 import bookproject.scraper.api.Tool;
-import bookproject.scraper.api.UnknownScraperException;
+import bookproject.scraper.api.UnknownToolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,14 +26,14 @@ public class ScraperResolver {
     @ScraperQualifier(Tool.HTML_UNIT)
     private Scraper htmlUnit;
 
-    public Scraper resolve(String scraperId) throws UnknownScraperException {
+    public Scraper resolve(String scraperId) throws UnknownToolException {
         LOG.debug("Resolving Scraper [{}]", scraperId);
         if (scraperId.equals(Tool.HTML_UNIT.id)) {
             return htmlUnit;
         } else if (scraperId.equals(Tool.TIDY.id)) {
             return tidy;
         } else {
-            throw new UnknownScraperException(String.format("Scraper with id [%s] could not be found", scraperId));
+            throw new UnknownToolException(String.format("Scraper with id [%s] could not be found", scraperId));
         }
     }
 

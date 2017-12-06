@@ -1,4 +1,4 @@
-package bookproject.scraper.it;
+package bookproject.integration;
 
 import bookproject.Application;
 import org.junit.Test;

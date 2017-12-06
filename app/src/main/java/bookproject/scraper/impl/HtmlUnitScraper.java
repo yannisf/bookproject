@@ -1,12 +1,10 @@
 package bookproject.scraper.impl;
 
-import bookproject.ScraperQualifier;
 import bookproject.scraper.api.*;
 import bookproject.service.IsbnService;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.validator.routines.ISBNValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +40,7 @@ public class HtmlUnitScraper implements Scraper {
             String link = getBookLink(provider, submittedIsbn, client);
             LOG.debug("Fetching [{}]", link);
             HtmlPage page = client.getPage(link);
-            String extractedIsbn = ISBNValidator.getInstance(false).validate(getResult(page, provider.getIsbnExpression()));
+            String extractedIsbn = isbnService.clean(getResult(page, provider.getIsbnExpression()));
             extractionValidator.validate(submittedIsbn, extractedIsbn);
             String title = getResult(page, provider.getTitleExpression());
             String author = getResult(page, provider.getAuthorExpression());

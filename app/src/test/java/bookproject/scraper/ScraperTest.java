@@ -3,21 +3,43 @@ package bookproject.scraper;
 import bookproject.scraper.api.BookInformationValue;
 import bookproject.scraper.api.Scraper;
 import bookproject.scraper.api.ScraperException;
+import bookproject.scraper.impl.ExtractionValidator;
 import bookproject.scraper.impl.HtmlUnitScraper;
 import bookproject.scraper.impl.TidyScraper;
 import bookproject.scraper.provider.Politeianet;
+import bookproject.service.IsbnService;
+import bookproject.service.IsbnServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.JaccardSimilarity;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
+@RunWith(MockitoJUnitRunner.class)
 public class ScraperTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(ScraperTest.class);
+
+    @Spy
+    private IsbnService isbnService = new IsbnServiceImpl();
+
+    @Mock
+    private ExtractionValidator extractionValidator;
+
+    @InjectMocks
+    private Scraper tidyScraper = new TidyScraper();
+
+    @InjectMocks
+    private Scraper htmlUnitScraper = new HtmlUnitScraper();
+
 
     private static final String isbn = "9789600316698";
     private static final String expectedTitle = "Το λάθος";
@@ -26,18 +48,13 @@ public class ScraperTest {
 
     @Test
     public void tidyTest() throws ScraperException {
-        Scraper scraper = new TidyScraper();
-        BookInformationValue bookInformationValue = scraper.scrape(new Politeianet(), isbn);
-        System.out.println(bookInformationValue);
+        BookInformationValue bookInformationValue = tidyScraper.scrape(new Politeianet(), isbn);
         performAssertions(bookInformationValue);
     }
 
     @Test
     public void htmlUnitTest() throws ScraperException {
-        LOG.info("Running htmlUnitTest");
-        Scraper scraper = new HtmlUnitScraper();
-        BookInformationValue bookInformationValue = scraper.scrape(new Politeianet(), isbn);
-        System.out.println(bookInformationValue);
+        BookInformationValue bookInformationValue = htmlUnitScraper.scrape(new Politeianet(), isbn);
         performAssertions(bookInformationValue);
     }
 
@@ -56,6 +73,5 @@ public class ScraperTest {
     private String normalize(String s) {
         return StringUtils.stripAccents(s.toLowerCase());
     }
-
 
 }

@@ -1,4 +1,4 @@
-package bookproject;
+package bookproject.scraper.impl;
 
 import bookproject.scraper.api.Tool;
 import org.springframework.beans.factory.annotation.Qualifier;

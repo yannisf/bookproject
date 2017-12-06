@@ -35,7 +35,7 @@ public class SearchController {
     public BookInformationValue searchForJson(@RequestParam("isbn") String isbn,
                                               @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                               @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException, UnknownScraperException, UnknownProviderException, InvalidIsbnException {
+            throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
 
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
         return bookInfoService.search(isbn, provider, scraper);
@@ -54,7 +54,7 @@ public class SearchController {
     public String searchForString(@RequestParam("isbn") String isbn,
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException, UnknownScraperException, UnknownProviderException, InvalidIsbnException {
+            throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
         BookInformationValue bookInformationValue = this.searchForJson(isbn, provider, scraper);
         return String.format("%s: %s, %s, %s",
                 bookInformationValue.getIsbn(),

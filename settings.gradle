@@ -1,3 +1,4 @@
-rootProject.name = 'scraper'
+rootProject.name = 'bookproject'
 include 'api'
+include 'persistence'
 include 'app'

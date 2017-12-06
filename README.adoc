@@ -4,12 +4,26 @@ Trivial application to retrieve bibliographic information from providers
 
 == Spring Boot
 
-.Run within gradle
- $ ./gradlew bootRun
+=== Build and Run
+
+.Build
+ $ ./gradlew -q clean build
+
+.Run boot app from gradle
+ $ ./gradlew -q bootRun
+
+.Debug boot app from gradle
+ $ ./gradlew -q bootRun -Pdebug
+
+then attach debugger to port 8000.
 
 .Build war and run
- $ ./gradlew clean bootWar
+ $ ./gradlew -q clean bootWar
  $ java -jar build/libs/scraper-0.0.1-boot.war
+
+NOTE: To skip the tests pass `-x test` to gradle
+
+=== Use
 
 .Basic UI
  http://localhost:8080/
@@ -28,12 +42,9 @@ The application uses the H2 database at its persistence layer. Before starting t
 .Start H2
  $ java -cp h2.jar org.h2.tools.Server
 
-== Build
- $ ./gradlew clean build
-
 == Reports
 
- $ ./gradlew allReports
+ $ ./gradlew -q allReports
 
 NOTE: Custom task using the _build-dashboard_ plugin.
 

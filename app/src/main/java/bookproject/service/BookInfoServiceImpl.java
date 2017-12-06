@@ -37,7 +37,7 @@ public class BookInfoServiceImpl implements BookInfoService {
     BookInformationValue search(@NonNull String isbn,
                                 @NonNull String provider,
                                 @NonNull String tool)
-            throws ScraperException, UnknownProviderException, UnknownScraperException, InvalidIsbnException {
+            throws ScraperException, UnknownProviderException, UnknownToolException, InvalidIsbnException {
 
         String validIsbn = isbnService.clean(isbn);
 
@@ -55,7 +55,7 @@ public class BookInfoServiceImpl implements BookInfoService {
                 return bookInformationValue;
             }
         } else {
-            throw new ScraperException(String.format("Received invalid ISBN [%s]", isbn));
+            throw new InvalidIsbnException(String.format("Received invalid ISBN [%s]", isbn));
         }
     }
 

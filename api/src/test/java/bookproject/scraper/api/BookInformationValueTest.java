@@ -1,5 +1,6 @@
 package bookproject.scraper.api;
 
+import bookproject.scraper.api.BookInformationValue;
 import org.junit.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;

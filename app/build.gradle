@@ -7,21 +7,23 @@ springBoot {
 
 war {
     enabled = true
-    archiveName 'scraper.war'
-}
-
-bootRun {
-    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"]
-    args = ["--debug"]
+    archiveName 'bookproject.war'
 }
 
 bootWar {
-    classifier = 'boot'
+    archiveName = "bookproject-boot.war"
     excludeDevtools = false
 }
 
-configurations {
-    providedRuntime
+bootRun {
+    args = []
+    jvmArgs = []
+
+    //-Pdebug
+    if (project.hasProperty('debug')) {
+        args << "--debug"
+        jvmArgs << "-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"
+    }
 }
 
 dependencies {
@@ -38,7 +40,9 @@ dependencies {
     compile 'net.sourceforge.htmlunit:htmlunit:2.28'
     compile 'com.h2database:h2'
     compile project(':api')
+    compile project(':persistence')
 
+    testCompile 'org.apache.commons:commons-text:1.1'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
 
     runtime 'org.springframework.boot:spring-boot-devtools'

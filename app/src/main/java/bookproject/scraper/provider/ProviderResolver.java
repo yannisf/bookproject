@@ -20,7 +20,6 @@ public class ProviderResolver {
     @Autowired
     BookInfoProvider[] providers;
 
-
     public BookInfoProvider resolve(String providerName) throws UnknownProviderException {
         LOG.debug("Resolving BookInfoProvider [{}]", providerName);
         return Stream.of(providers)

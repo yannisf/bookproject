@@ -1,1 +1,3 @@
 rootProject.name = 'scraper'
+include 'api'
+include 'app'

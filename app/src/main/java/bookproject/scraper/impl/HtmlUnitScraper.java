@@ -1,5 +1,6 @@
 package bookproject.scraper.impl;
 
+import bookproject.ScraperQualifier;
 import bookproject.scraper.api.*;
 import bookproject.service.IsbnService;
 import com.gargoylesoftware.htmlunit.WebClient;

@@ -1,7 +1,7 @@
 package bookproject.scraper.impl;
 
 import bookproject.scraper.api.Scraper;
-import bookproject.scraper.api.ScraperQualifier;
+import bookproject.ScraperQualifier;
 import bookproject.scraper.api.Tool;
 import bookproject.scraper.api.UnknownScraperException;
 import org.slf4j.Logger;

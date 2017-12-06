@@ -1,0 +1,47 @@
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+
+springBoot {
+    mainClassName = 'bookproject.Application'
+}
+
+war {
+    enabled = true
+    archiveName 'scraper.war'
+}
+
+bootRun {
+    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=n"]
+    args = ["--debug"]
+}
+
+bootWar {
+    classifier = 'boot'
+    excludeDevtools = false
+}
+
+configurations {
+    providedRuntime
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-cache'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+
+    compile 'net.sf.jtidy:jtidy:r938'
+    compile 'commons-validator:commons-validator:1.6'
+    compile 'net.sourceforge.htmlunit:htmlunit:2.28'
+    compile 'com.h2database:h2'
+    compile project(':api')
+
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+
+    runtime 'org.springframework.boot:spring-boot-devtools'
+
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+}

@@ -7,7 +7,7 @@ buildscript {
     }
 
     ext {
-        springBootVersion = '2.0.0.M6'
+        springBootVersion = '2.0.0.M7'
     }
 
     dependencies {
@@ -19,6 +19,12 @@ buildscript {
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'jacoco'
+//    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+    apply plugin: 'pmd'
+    apply plugin: 'project-report'
+    apply plugin: 'build-dashboard'
     apply plugin: "io.spring.dependency-management"
 
     repositories {
@@ -30,11 +36,44 @@ subprojects {
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
 
+    test {
+        ignoreFailures = true
+        reports.html.enabled = false
+    }
+
     tasks.withType(JavaCompile) {
         options.encoding = 'UTF-8'
         options.warnings = true
         options.compilerArgs = ['-Xlint', '-Xlint:-processing']
     }
+
+//    checkstyle {
+//        toolVersion = "8.4"
+//    }
+
+    pmd {
+        toolVersion = "5.8.1"
+    }
+
+    findbugs {
+        toolVersion = "3.0.1"
+        effort = "max"
+        reportLevel = "low"
+        ignoreFailures = true
+    }
+
+    tasks.withType(FindBugs) {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.7.9"
+    }
+
+    test.jacoco.excludes = ['com/steadystate/**']
 
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.16.18'
@@ -42,4 +81,11 @@ subprojects {
         testCompile group: 'org.assertj', name: 'assertj-core', version: '3.8.0'
         testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.22'
     }
+}
+
+
+task testReport(type: TestReport) {
+    destinationDir = file("build/reports/allTests")
+    // Include the results from the `test` task in all subprojects
+    reportOn subprojects*.test
 }

@@ -42,6 +42,13 @@ The application uses the H2 database at its persistence layer. Before starting t
 .Start H2
  $ java -cp h2.jar org.h2.tools.Server
 
+== Deploy on Tomcat
+The bundled application can be deployed on a Tomcat, through the cargo plugin:
+
+ $ ./gradlew clean war cargoReDeployRemote
+
+NOTE: Obviously, tomcat must be up and running. The same is true for an H2 database. Tomcat deployer configuration is in the root `build.gradle`.
+
 == Reports
 
  $ ./gradlew -q allReports

@@ -1,0 +1,42 @@
+= Database
+
+The application requires a database. The preconfigured database is H2 and all documentation will make the assumption that H2 is used, but if needed this can be adapted  to any JDBC compliant database.
+
+== Installation
+Before running the application the H2 database must be up and running.
+
+=== Windows
+Make sure you have downloaded the h2 jar, e.g. from http://repo2.maven.org/maven2/com/h2database/h2/1.4.196/h2-1.4.196.jar.
+
+Then start the database like so:
+
+ java -cp h2-1.4.196.jar org.h2.tools.Server
+
+=== Linux
+While the database in Linux can start in the same way, it is suggested to install it as a `systemd` service, so that is it easier to manage it.
+
+1. Install H2 from apt (debian):
+
+  $ sudo apt install libh2-java
+
+2. In `/lib/systemd/system` create a file named `h2.service`
+
+3. Add the following content
+```ini
+[Unit]
+Description=H2 database
+[Service]
+ExecStart=/usr/bin/java -cp /usr/share/java/h2.jar org.h2.tools.Server -tcp -tcpAllowOthers
+User=tomcat8
+Type=simple
+[Install]
+WantedBy=multi-user.target
+```
+
+4. Reload systemd
+
+  $ sudo systemctl daemon-reload
+
+5. Start/Stop the service
+
+  $ sudo systemctl start|stop h2

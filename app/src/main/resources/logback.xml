@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/bookproject.log</file>
+        <append>true</append>
+        <immediateFlush>true</immediateFlush>
+        <encoder>
+            <pattern>%d %p %t %C[%L]: %m%n</pattern>
+        </encoder>
+    </appender>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%d %p %t %C[%L]: %m%n</pattern>
@@ -11,6 +20,7 @@
 
     <root level="warn">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </root>
 
 </configuration>

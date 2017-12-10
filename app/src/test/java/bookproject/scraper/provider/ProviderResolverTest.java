@@ -1,6 +1,6 @@
 package bookproject.scraper.provider;
 
-import bookproject.scraper.api.BookInfoProvider;
+import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.UnknownProviderException;
 import org.junit.Test;
 
@@ -13,14 +13,14 @@ public class ProviderResolverTest {
 
     @Test
     public void resolveTest() throws UnknownProviderException {
-        BookInfoProvider provider1 = mock(BookInfoProvider.class);
+        BookInformationProvider provider1 = mock(BookInformationProvider.class);
         when(provider1.getName()).thenReturn("provider1");
 
-        BookInfoProvider provider2 = mock(BookInfoProvider.class);
+        BookInformationProvider provider2 = mock(BookInformationProvider.class);
         when(provider2.getName()).thenReturn("provider2");
 
         ProviderResolver providerResolver = new ProviderResolver();
-        providerResolver.providers = new BookInfoProvider[]{provider1, provider2};
+        providerResolver.providers = new BookInformationProvider[]{provider1, provider2};
 
         assertThat(providerResolver.resolve("provider1")).isEqualTo(provider1);
         assertThat(providerResolver.resolve("provider2")).isEqualTo(provider2);

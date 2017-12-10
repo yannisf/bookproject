@@ -40,7 +40,7 @@ public class TidyScraper implements Scraper {
      * {@inheritDoc}
      */
     @Override
-    public BookInformationValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+    public BookInformationValue scrape(BookInformationProvider provider, String submittedIsbn) throws ScraperException {
         LOG.info("Scraping using Tidy");
         BookInformationValue bookInformationValue;
         try {
@@ -68,7 +68,7 @@ public class TidyScraper implements Scraper {
     }
 
 
-    private String getBookLink(BookInfoProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
+    private String getBookLink(BookInformationProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
         URL searchUrl = new URL(spec);
         Tidy tidy = createTidy();

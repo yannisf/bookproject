@@ -31,7 +31,7 @@ public class HtmlUnitScraper implements Scraper {
      * {@inheritDoc}
      */
     @Override
-    public BookInformationValue scrape(BookInfoProvider provider, String submittedIsbn) throws ScraperException {
+    public BookInformationValue scrape(BookInformationProvider provider, String submittedIsbn) throws ScraperException {
         LOG.info("Scraping using HtmlUnit");
         BookInformationValue bookInformationValue;
 
@@ -60,7 +60,7 @@ public class HtmlUnitScraper implements Scraper {
         return bookInformationValue;
     }
 
-    private String getBookLink(BookInfoProvider provider, String isbn, WebClient client) throws IOException, ScraperException {
+    private String getBookLink(BookInformationProvider provider, String isbn, WebClient client) throws IOException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
         HtmlPage page = client.getPage(spec);
         String link = getResult(page, provider.getBookLinkFromResultExpression());

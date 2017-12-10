@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode(callSuper = true)
 public class BookInformation extends BaseEntity {
 
     private static final long serialVersionUID = 3134094330449577628L;

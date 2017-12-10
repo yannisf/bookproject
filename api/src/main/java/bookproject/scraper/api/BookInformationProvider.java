@@ -3,7 +3,7 @@ package bookproject.scraper.api;
 /**
  * Abstraction of an entity that provides book information.
  */
-public interface BookInfoProvider {
+public interface BookInformationProvider {
 
     /**
      * The provider name. Typically used as identifier.

@@ -1,6 +1,6 @@
 package bookproject.scraper.provider;
 
-import bookproject.scraper.api.BookInfoProvider;
+import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.ExtractionExpression;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * Book information provider implementation for <i>biblionet</i>.
  */
 @Component("biblionet")
-public class Biblionet implements BookInfoProvider {
+public class Biblionet implements BookInformationProvider {
 
     private static final String NAME = "biblionet";
 

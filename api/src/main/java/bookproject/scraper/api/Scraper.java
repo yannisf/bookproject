@@ -5,7 +5,6 @@ package bookproject.scraper.api;
  */
 public interface Scraper {
 
-
     /**
      * Scrapes book information provider for ISBN.
      * @param provider the book information provider
@@ -13,6 +12,6 @@ public interface Scraper {
      * @return book information
      * @throws ScraperException exception while scraping
      */
-    BookInformationValue scrape(BookInfoProvider provider, String isbn) throws ScraperException;
+    BookInformationValue scrape(BookInformationProvider provider, String isbn) throws ScraperException;
 
 }

@@ -1,7 +1,8 @@
 package bookproject.web;
 
 import bookproject.scraper.api.*;
-import bookproject.service.BookInfoService;
+import bookproject.service.BookInformationService;
+import bookproject.service.IsbnService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,10 @@ public class SearchController {
     private static final Logger LOG = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
-    private BookInfoService bookInfoService;
+    private BookInformationService bookInformationService;
+
+    @Autowired
+    private IsbnService isbnService;
 
     /**
      * Searches for book information.
@@ -38,7 +42,13 @@ public class SearchController {
             throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
 
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
-        return bookInfoService.search(isbn, provider, scraper);
+        String validIsbn = isbnService.clean(isbn);
+
+        if (validIsbn != null) {
+            return bookInformationService.search(isbn, provider, scraper);
+        } else {
+            throw new InvalidIsbnException(String.format("Received invalid ISBN [%s]", isbn));
+        }
     }
 
     /**

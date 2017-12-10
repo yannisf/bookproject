@@ -25,6 +25,13 @@ public class ScrapingAspect {
         //Pointcut definition
     }
 
+    /**
+     * Intercepts searches for the  REST API. Mostly used for logging.
+     *
+     * @param pjp the joinpoint
+     * @return the result
+     * @throws Throwable possible exception
+     */
     @Around("search()")
     public Object logSearchElapsedTime(ProceedingJoinPoint pjp) throws Throwable {
         Stream.of(pjp.getArgs()).forEach(a -> LOG.debug("Search argument [{}]", a));

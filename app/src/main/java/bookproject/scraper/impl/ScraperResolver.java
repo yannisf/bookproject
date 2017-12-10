@@ -26,6 +26,13 @@ public class ScraperResolver {
     @ScraperQualifier(Tool.HTML_UNIT)
     private Scraper htmlUnit;
 
+    /**
+     * Resolver method.
+     *
+     * @param scraperId the intended scraper
+     * @return the scraper implementation
+     * @throws UnknownToolException thrown when the scraper could not be resolved
+     */
     public Scraper resolve(String scraperId) throws UnknownToolException {
         LOG.debug("Resolving Scraper [{}]", scraperId);
         if (scraperId.equals(Tool.HTML_UNIT.id)) {

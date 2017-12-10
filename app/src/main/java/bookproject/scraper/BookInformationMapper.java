@@ -8,12 +8,21 @@ import org.springframework.stereotype.Component;
 
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
+/**
+ * Maps book information from entity to value object and vice versa.
+ */
 @Component
 public class BookInformationMapper {
 
     @Autowired
     private IsbnService isbnService;
 
+    /**
+     * Maps {@link BookInformation} to {@link BookInformationValue}.
+     *
+     * @param bookInformation the entity
+     * @return the mapped value object
+     */
     public BookInformationValue toValue(BookInformation bookInformation) {
         return BookInformationValue.builder()
                 .author(bookInformation.getAuthor())
@@ -27,6 +36,12 @@ public class BookInformationMapper {
                 .build();
     }
 
+    /**
+     * Maps {@link BookInformationValue} to {@link BookInformation}.
+     *
+     * @param bookInformationValue value object
+     * @return the mapped entity
+     */
     public BookInformation fromValue(BookInformationValue bookInformationValue) {
         BookInformation bookInformation = BookInformation.builder()
                 .author(bookInformationValue.getAuthor())

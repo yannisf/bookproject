@@ -45,7 +45,7 @@ public class SearchController {
         String validIsbn = isbnService.clean(isbn);
 
         if (validIsbn != null) {
-            return bookInformationService.search(isbn, provider, scraper);
+            return bookInformationService.search(validIsbn, provider, scraper);
         } else {
             throw new InvalidIsbnException(String.format("Received invalid ISBN [%s]", isbn));
         }

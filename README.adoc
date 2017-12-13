@@ -32,7 +32,7 @@ NOTE: To skip the tests pass `-x test` to gradle
  http://localhost:8080/search?isbn=9789600316698
 
 .Application information
- http://localhost:8080/application/info
+ http://localhost:8080/actuator/info
 
 NOTE: Provided through the actuator module
 

@@ -17,12 +17,12 @@ bootWar {
 
 bootRun {
     args = []
-    jvmArgs = ["-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y"]
+    jvmArgs = []
 
     //-Pdebug
     if (project.hasProperty('debug')) {
-        args << "--debug"
-//        jvmArgs << "-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y"
+        args <<= '--debug'
+        jvmArgs <<= '-agentlib:jdwp=transport=dt_socket,server=y,address=8000,suspend=y'
     }
 }
 

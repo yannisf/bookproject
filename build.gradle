@@ -1,21 +1,34 @@
 buildscript {
-
     repositories {
         jcenter()
         mavenCentral()
         maven { url 'http://repo.spring.io/snapshot' }
         maven { url 'http://repo.spring.io/milestone' }
     }
-
     ext {
         springBootVersion = '2.0.0.M7'
     }
-
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath 'com.bmuschko:gradle-cargo-plugin:2.2.3'
     }
+}
 
+description 'the::bookproject'
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+
+    group 'bookproject'
+    version '0.0.1'
 }
 
 apply plugin: 'com.bmuschko.cargo'
@@ -35,27 +48,13 @@ cargo {
     }
 }
 
-allprojects {
-    apply plugin: 'java'
-
-    repositories {
-        jcenter()
-        mavenCentral()
-        maven { url "https://repo.spring.io/snapshot" }
-        maven { url "https://repo.spring.io/milestone" }
-    }
-
-}
-
 subprojects {
-    apply plugin: 'jacoco'
-//    apply plugin: 'checkstyle'
+    apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
     apply plugin: 'project-report'
     apply plugin: 'build-dashboard'
     apply plugin: "io.spring.dependency-management"
-
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -71,19 +70,20 @@ subprojects {
         options.compilerArgs = ['-Xlint', '-Xlint:-processing']
     }
 
-//    checkstyle {
-//        toolVersion = "8.4"
-//    }
+    checkstyle {
+        toolVersion "8.4"
+        configFile file("${rootProject.projectDir}/config/checkstyle/checkstyle.xml")
+    }
 
     pmd {
-        toolVersion = "5.8.1"
+        toolVersion "5.8.1"
     }
 
     findbugs {
-        toolVersion = "3.0.1"
-        effort = "max"
-        reportLevel = "low"
-        ignoreFailures = true
+        toolVersion "3.0.1"
+        effort "max"
+        reportLevel "low"
+        ignoreFailures true
     }
 
     tasks.withType(FindBugs) {
@@ -99,7 +99,6 @@ subprojects {
 
     test.jacoco.excludes = ['com/steadystate/**']
 
-
     dependencies {
         compileOnly 'org.projectlombok:lombok:1.16.18'
         testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -109,14 +108,14 @@ subprojects {
 }
 
 task alljavadoc(type: Javadoc) {
-    source = [project(':api').sourceSets.main.allJava, project(':persistence').sourceSets.main.allJava, project(':app').sourceSets.main.allJava]
-    classpath = files([project(':app').sourceSets.main.compileClasspath])
+    options.encoding = 'UTF-8'
+    source = subprojects*.sourceSets.main.allJava
+    classpath = files(subprojects*.sourceSets.main.compileClasspath)
     destinationDir = file("${buildDir}/docs/javadoc")
 }
 
 task testReport(type: TestReport) {
-    destinationDir = file("build/reports/allTests")
-    // Include the results from the `test` task in all subprojects
+    destinationDir = file("${buildDir}/reports/tests")
     reportOn subprojects*.test
 }
 
@@ -124,4 +123,12 @@ dependencies {
     def cargoVersion = '1.4.5'
     cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion",
             "org.codehaus.cargo:cargo-ant:$cargoVersion"
+}
+
+task jacocoMerge(type: JacocoMerge) {
+    destinationFile file("${buildDir}/jacoco/test.exec")
+    def execFiles = subprojects.findResults {
+        new File("${it.buildDir}/jacoco/test.exec").exists()?"${it.buildDir}/jacoco/test.exec":null
+    }
+    executionData files(execFiles)
 }

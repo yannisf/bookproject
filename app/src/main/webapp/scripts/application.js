@@ -1,23 +1,25 @@
 $(document).ready(() => {
 
+    initializeGitVersion();
+
     $('#clean-isbn').bind("click", () => {
         $('#isbn').val('');
     });
 
     $('#result').css('display', 'none');
-    
+
     $("#clean").bind("click", () => {
         $('#isbn').val('');
         $('#provider').val('');
         $('#tool').val('');
         $('#result').css('display', 'none');
     });
-    
+
     $("#submit").bind("click", () => {
         let isbn = $('#isbn').val();
         let provider = $('#provider').val();
         let tool = $('#tool').val();
-        
+
         $('#result').css('display', 'none');
         $('#loader').css('display', 'block');
         $.get('search', {
@@ -35,12 +37,21 @@ $(document).ready(() => {
                 $('#source').attr('href', data.sourceUrl);
             })
             .fail((data) => {
-                // if (data.status === 500) {
-                // $('#result').text('Server error');
-                // }
+                $('#error_alert').css('display', 'block');
+                $('#error').text(data.responseJSON.message);
             })
             .always((data) => {
                 $('#loader').css('display', 'none');
             });
     });
 });
+
+function initializeGitVersion() {
+    $.get('actuator/info')
+        .done((data) => {
+            $('#commit').text(data.git.commit.id);
+        })
+        .fail((data) => {
+            $('#commit').text('########');
+        });
+}

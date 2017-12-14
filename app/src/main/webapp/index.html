@@ -15,8 +15,12 @@
     bookproject
 </h1>
 
-<form>
+<div id="error_alert" class="alert alert-danger" style="display: none" role="alert">
+    <strong>Σφάλμα: </strong>
+    <span id="error"></span>
+</div>
 
+<form>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -24,8 +28,8 @@
                 <div class="input-group">
                     <input type="text" class="form-control" id="isbn" placeholder="ISBN ή ISBN-13">
                     <span class="input-group-addon" id="clean-isbn">
-                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                    </span>
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </span>
                 </div>
             </div>
         </div>
@@ -63,7 +67,6 @@
             <span id="clean" class="btn btn-default">Καθαρισμός</span>
         </div>
     </div>
-
 </form>
 
 <h2>Αποτέλεσμα</h2>
@@ -81,8 +84,16 @@
             <dt>Εκδότης</dt>
             <dd id="publisher"></dd>
             <dt>Πηγή</dt>
-            <dd><a id="source" target="_blank"></a></dd>
+            <dd>
+                <a id="source" target="_blank"></a>
+            </dd>
         </dl>
+    </div>
+    </div>
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <span class="small" id="commit"></span>
     </div>
 </div>
 

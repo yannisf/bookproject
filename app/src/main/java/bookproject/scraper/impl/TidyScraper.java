@@ -84,7 +84,7 @@ public class TidyScraper implements Scraper {
         }
 
         if (StringUtils.isBlank(link)) {
-            throw new ScraperException("Book not found");
+            throw new ScraperException(ErrorCode.BOOK_NOT_FOUND);
         }
 
         if (provider.usesNoHostLinks()) {

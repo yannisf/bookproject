@@ -1,8 +1,8 @@
 package bookproject.scraper.impl;
 
 import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.api.Tool;
-import bookproject.scraper.api.UnknownToolException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -25,13 +25,13 @@ public class ScraperResolverTest {
     private ScraperResolver resolver;
 
     @Test
-    public void test() throws UnknownToolException {
+    public void test() throws ScraperException {
         assertThat(resolver.resolve(Tool.TIDY.id)).isEqualTo(tidy);
         assertThat(resolver.resolve(Tool.HTML_UNIT.id)).isEqualTo(htmlUnitScraper);
 
         Throwable thrown = catchThrowable(() -> resolver.resolve("x"));
 
-        assertThat(thrown).isInstanceOf(UnknownToolException.class);
+        assertThat(thrown).isInstanceOf(ScraperException.class);
     }
 
 }

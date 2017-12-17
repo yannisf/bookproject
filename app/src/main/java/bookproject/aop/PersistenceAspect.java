@@ -5,7 +5,8 @@ import bookproject.persistence.repository.BookInformationRepository;
 import bookproject.scraper.BookInformationMapper;
 import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.BookInformationValue;
-import bookproject.scraper.api.InvalidIsbnException;
+import bookproject.scraper.api.ErrorCode;
+import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.provider.ProviderResolver;
 import bookproject.service.IsbnService;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -74,13 +75,13 @@ public class PersistenceAspect {
         }
     }
 
-    private Optional<BookInformation> findOptional(String validIsbn, String provider) throws InvalidIsbnException {
+    private Optional<BookInformation> findOptional(String validIsbn, String provider) throws ScraperException {
         if (isbnService.isIsbn10(validIsbn)) {
             return bookInformationRepository.findByIsbnAndProvider(validIsbn, provider);
         } else if (isbnService.isIsbn13(validIsbn)) {
             return bookInformationRepository.findByIsbn13AndProvider(validIsbn, provider);
         } else {
-            throw new InvalidIsbnException("ISBN can only be a valid ISBN10 or ISBN13");
+            throw new ScraperException(ErrorCode.INVALID_ISBN);
         }
     }
 

@@ -1,6 +1,8 @@
 package bookproject.web;
 
-import bookproject.scraper.api.*;
+import bookproject.scraper.api.BookInformationValue;
+import bookproject.scraper.api.ErrorCode;
+import bookproject.scraper.api.ScraperException;
 import bookproject.service.BookInformationService;
 import bookproject.service.IsbnService;
 import org.slf4j.Logger;
@@ -39,7 +41,7 @@ public class SearchController {
     public BookInformationValue searchForJson(@RequestParam("isbn") String isbn,
                                               @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                               @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
+            throws ScraperException {
 
         LOG.debug("Request parameters: isbn[{}], provider[{}], scraper[{}]", isbn, provider, scraper);
         String validIsbn = isbnService.clean(isbn);
@@ -47,7 +49,7 @@ public class SearchController {
         if (validIsbn != null) {
             return bookInformationService.search(validIsbn, provider, scraper);
         } else {
-            throw new InvalidIsbnException(String.format("Received invalid ISBN [%s]", isbn));
+            throw new ScraperException(ErrorCode.INVALID_ISBN);
         }
     }
 
@@ -64,7 +66,7 @@ public class SearchController {
     public String searchForString(@RequestParam("isbn") String isbn,
                                   @RequestParam(value = "provider", defaultValue = "politeianet") String provider,
                                   @RequestParam(value = "scraper", defaultValue = "tidy") String scraper)
-            throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
+            throws ScraperException {
         BookInformationValue bookInformationValue = this.searchForJson(isbn, provider, scraper);
         return String.format("%s: %s, %s, %s",
                 bookInformationValue.getIsbn(),

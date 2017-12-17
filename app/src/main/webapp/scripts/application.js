@@ -6,22 +6,25 @@ $(document).ready(() => {
         $('#isbn').val('');
     });
 
-    $('#result').css('display', 'none');
-
     $("#clean").bind("click", () => {
+        $('#result').css('display', 'none');
         $('#isbn').val('');
         $('#provider').val('');
         $('#tool').val('');
-        $('#result').css('display', 'none');
+        $('#loader').css('display', 'none');
+        $('#error_alert').css('display', 'none');
+
     });
 
     $("#submit").bind("click", () => {
+        $('#error_alert').css('display', 'none');
+        $('#loader').css('display', 'block');
+        $('#result').css('display', 'none');
+
         let isbn = $('#isbn').val();
         let provider = $('#provider').val();
         let tool = $('#tool').val();
 
-        $('#result').css('display', 'none');
-        $('#loader').css('display', 'block');
         $.get('search', {
                 isbn: isbn,
                 provider: provider,

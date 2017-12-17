@@ -7,14 +7,28 @@ public class ScraperException extends Exception {
 
     private static final long serialVersionUID = -2336628489732184895L;
 
-    public ScraperException() {
-    }
+    private final ErrorCode errorCode;
 
-    public ScraperException(String message) {
-        super(message);
+    public ScraperException() {
+        super();
+        this.errorCode = ErrorCode.GENERIC_ERROR;
     }
 
     public ScraperException(Exception e) {
         super(e);
+        this.errorCode = ErrorCode.GENERIC_ERROR;
+    }
+
+    public ScraperException(String message) {
+        super(message);
+        this.errorCode = ErrorCode.GENERIC_ERROR;
+    }
+
+    public ScraperException(ErrorCode errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    public ErrorCode getErrorCode() {
+        return errorCode;
     }
 }

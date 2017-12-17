@@ -1,7 +1,7 @@
 package bookproject.scraper.provider;
 
 import bookproject.scraper.api.BookInformationProvider;
-import bookproject.scraper.api.UnknownProviderException;
+import bookproject.scraper.api.ScraperException;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -12,7 +12,7 @@ import static org.mockito.Mockito.when;
 public class ProviderResolverTest {
 
     @Test
-    public void resolveTest() throws UnknownProviderException {
+    public void resolveTest() throws ScraperException {
         BookInformationProvider provider1 = mock(BookInformationProvider.class);
         when(provider1.getName()).thenReturn("provider1");
 
@@ -27,7 +27,7 @@ public class ProviderResolverTest {
 
         Throwable thrown = catchThrowable(() -> providerResolver.resolve("provider3"));
 
-        assertThat(thrown).isInstanceOf(UnknownProviderException.class);
+        assertThat(thrown).isInstanceOf(ScraperException.class);
     }
 
 }

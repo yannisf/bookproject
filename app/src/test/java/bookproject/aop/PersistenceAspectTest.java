@@ -5,16 +5,13 @@ import bookproject.persistence.repository.BookInformationRepository;
 import bookproject.scraper.BookInformationMapper;
 import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.BookInformationValue;
-import bookproject.scraper.api.InvalidIsbnException;
+import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.provider.ProviderResolver;
-import bookproject.service.IsbnService;
-import bookproject.service.IsbnServiceImpl;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
@@ -37,9 +34,6 @@ public class PersistenceAspectTest {
     @Mock
     private BookInformationMapper bookInformationMapper;
 
-    @Spy
-    private IsbnService isbnService = new IsbnServiceImpl();
-
     @InjectMocks
     private PersistenceAspect persistenceAspect;
 
@@ -50,7 +44,7 @@ public class PersistenceAspectTest {
         BookInformationProvider provider = mock(BookInformationProvider.class);
         when(providerResolver.resolve(eq("PROVIDER"))).thenReturn(provider);
         Throwable thrown = catchThrowable(() -> persistenceAspect.find(pjp));
-        assertThat(thrown).isInstanceOf(InvalidIsbnException.class);
+        assertThat(thrown).isInstanceOf(ScraperException.class);
     }
 
     @Test
@@ -65,7 +59,7 @@ public class PersistenceAspectTest {
         when(bookInformationRepository.findByIsbnAndProvider(eq(isbn), eq("PROVIDER_NAME")))
                 .thenReturn(Optional.empty());
 
-        BookInformationValue bookInformationValue = persistenceAspect.find(pjp);
+        persistenceAspect.find(pjp);
         verify(bookInformationMapper, never()).toValue(any());
         verify(pjp, times(1)).proceed();
     }

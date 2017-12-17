@@ -1,6 +1,9 @@
 package bookproject.service;
 
-import bookproject.scraper.api.*;
+import bookproject.scraper.api.BookInformationProvider;
+import bookproject.scraper.api.BookInformationValue;
+import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.impl.ScraperResolver;
 import bookproject.scraper.provider.ProviderResolver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +32,7 @@ public class BookInformationServiceImpl implements BookInformationService {
     BookInformationValue search(@NonNull String isbn,
                                 @NonNull String provider,
                                 @NonNull String tool)
-            throws ScraperException, UnknownProviderException, UnknownToolException {
+            throws ScraperException {
 
         BookInformationProvider resolvedProvider = providerResolver.resolve(provider);
         Scraper resolvedScraper = scraperResolver.resolve(tool);

@@ -1,6 +1,9 @@
 package bookproject.service;
 
-import bookproject.scraper.api.*;
+import bookproject.scraper.api.BookInformationProvider;
+import bookproject.scraper.api.BookInformationValue;
+import bookproject.scraper.api.Scraper;
+import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.impl.ScraperResolver;
 import bookproject.scraper.provider.ProviderResolver;
 import org.junit.Test;
@@ -27,8 +30,7 @@ public class BookInformationServiceTest {
     private BookInformationService bookInformationService = new BookInformationServiceImpl();
 
     @Test
-    public void testSearch()
-            throws ScraperException, UnknownToolException, UnknownProviderException, InvalidIsbnException {
+    void testSearch() throws ScraperException {
 
         String isbn = "9600342687";
 

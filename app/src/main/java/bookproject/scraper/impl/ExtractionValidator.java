@@ -1,5 +1,6 @@
 package bookproject.scraper.impl;
 
+import bookproject.scraper.api.ErrorCode;
 import bookproject.scraper.api.ScraperException;
 import bookproject.service.IsbnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ExtractionValidator {
-
-    private static final String UNRELIABLE_EXTRACTION_MESSAGE = "Book information could not be extracted reliably.";
 
     @Autowired
     private IsbnService isbnService;
@@ -27,15 +26,15 @@ public class ExtractionValidator {
     void validate(String submittedIsbn, String extractedIsbn) throws ScraperException {
         if (isbnService.isIsbn10(submittedIsbn) && isbnService.isIsbn13(extractedIsbn)) {
             if (!isbnService.convertToIsbn13(submittedIsbn).equals(extractedIsbn)) {
-                throw new ScraperException(UNRELIABLE_EXTRACTION_MESSAGE);
+                throw new ScraperException(ErrorCode.BOOK_NOT_EXTRACTED_RELIABLY);
             }
         } else if (isbnService.isIsbn10(extractedIsbn) && isbnService.isIsbn13(submittedIsbn)) {
             if (!isbnService.convertToIsbn13(extractedIsbn).equals(submittedIsbn)) {
-                throw new ScraperException(UNRELIABLE_EXTRACTION_MESSAGE);
+                throw new ScraperException(ErrorCode.BOOK_NOT_EXTRACTED_RELIABLY);
             }
         } else {
             if (!submittedIsbn.equals(extractedIsbn)) {
-                throw new ScraperException(UNRELIABLE_EXTRACTION_MESSAGE);
+                throw new ScraperException(ErrorCode.BOOK_NOT_EXTRACTED_RELIABLY);
             }
         }
     }

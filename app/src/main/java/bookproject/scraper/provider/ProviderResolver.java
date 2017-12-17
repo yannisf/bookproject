@@ -1,7 +1,8 @@
 package bookproject.scraper.provider;
 
 import bookproject.scraper.api.BookInformationProvider;
-import bookproject.scraper.api.UnknownProviderException;
+import bookproject.scraper.api.ErrorCode;
+import bookproject.scraper.api.ScraperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,14 @@ public class ProviderResolver {
      *
      * @param providerName the provider name
      * @return the provider
-     * @throws UnknownProviderException thrown when the provider name could not be resolved
+     * @throws ScraperException thrown when the provider name could not be resolved
      */
-    public BookInformationProvider resolve(String providerName) throws UnknownProviderException {
+    public BookInformationProvider resolve(String providerName) throws ScraperException {
         LOG.debug("Resolving BookInformationProvider [{}]", providerName);
         return Stream.of(providers)
                 .filter(p -> p.getName().equals(providerName))
                 .findFirst()
-                .orElseThrow(UnknownProviderException::new);
+                .orElseThrow(() -> new ScraperException(ErrorCode.INVALID_PROVIDER));
     }
 
 }

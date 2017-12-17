@@ -19,7 +19,7 @@ then attach debugger to port 8000.
 
 .Build war and run
  $ ./gradlew -q clean bootWar
- $ java -jar build/libs/scraper-0.0.1-boot.war
+ $ java -jar build/libs/bookproject-boot.war
 
 NOTE: To skip the tests pass `-x test` to gradle
 
@@ -47,12 +47,16 @@ The bundled application can be deployed on a Tomcat, through the cargo plugin:
 
  $ ./gradlew clean war cargoReDeployRemote
 
-NOTE: Obviously, tomcat must be up and running. The same is true for an H2 database. Tomcat deployer configuration is in the root `build.gradle`.
+NOTE: Tomcat and an H2 database must be up and running. Tomcat deployer configuration is in the root `build.gradle`.
 
 == Reports
 
- $ ./gradlew -q allReports
+.Test report
+Using this custom task, an aggregated test report fromm all projects is generated in root project, under `build\reports\tests`.
 
-NOTE: Custom task using the _build-dashboard_ plugin.
+ $ ./gradlew -q testReport
 
-Report available on `build\reports\buildDashboard\index.html`.
+.Generate Javadoc
+Using this custom task, aggregated Javadoc from all project is generated in root project, under `build/docs/javadoc`.
+
+ $ ./gradlew -q alljavadoc

@@ -7,11 +7,14 @@ import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.BookInformationValue;
 import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.provider.ProviderResolver;
+import bookproject.service.IsbnService;
+import bookproject.service.IsbnServiceImpl;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
@@ -33,6 +36,9 @@ public class PersistenceAspectTest {
 
     @Mock
     private BookInformationMapper bookInformationMapper;
+
+    @Spy
+    private IsbnService isbnService = new IsbnServiceImpl();
 
     @InjectMocks
     private PersistenceAspect persistenceAspect;

@@ -30,7 +30,7 @@ public class BookInformationServiceTest {
     private BookInformationService bookInformationService = new BookInformationServiceImpl();
 
     @Test
-    void testSearch() throws ScraperException {
+    public void testSearch() throws ScraperException {
 
         String isbn = "9600342687";
 

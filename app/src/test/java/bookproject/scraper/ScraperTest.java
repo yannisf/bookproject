@@ -6,7 +6,7 @@ import bookproject.scraper.api.ScraperException;
 import bookproject.scraper.impl.ExtractionValidator;
 import bookproject.scraper.impl.HtmlUnitScraper;
 import bookproject.scraper.impl.TidyScraper;
-import bookproject.scraper.provider.Politeianet;
+import bookproject.scraper.provider.Biblionet;
 import bookproject.service.IsbnService;
 import bookproject.service.IsbnServiceImpl;
 import org.apache.commons.lang3.StringUtils;
@@ -48,13 +48,13 @@ public class ScraperTest {
 
     @Test
     public void tidyTest() throws ScraperException {
-        BookInformationValue bookInformationValue = tidyScraper.scrape(new Politeianet(), isbn);
+        BookInformationValue bookInformationValue = tidyScraper.scrape(new Biblionet(), isbn);
         performAssertions(bookInformationValue);
     }
 
     @Test
     public void htmlUnitTest() throws ScraperException {
-        BookInformationValue bookInformationValue = htmlUnitScraper.scrape(new Politeianet(), isbn);
+        BookInformationValue bookInformationValue = htmlUnitScraper.scrape(new Biblionet(), isbn);
         performAssertions(bookInformationValue);
     }
 

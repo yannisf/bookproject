@@ -62,12 +62,14 @@ public class HtmlUnitScraper implements Scraper {
 
     private String getBookLink(BookInformationProvider provider, String isbn, WebClient client) throws IOException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
+        LOG.debug("Searching with ISBN [{}]: [{}]", isbn, spec);
         HtmlPage page = client.getPage(spec);
         String link = getResult(page, provider.getBookLinkFromResultExpression());
 
         if (StringUtils.isBlank(link) && isbnService.isIsbn10(isbn)) {
             isbn = isbnService.convertToIsbn13(isbn);
             spec = String.format(provider.getSearchFormat(), isbn);
+            LOG.debug("2nd try with ISBN13 [{}]: [{}]", isbn, spec);
             page = client.getPage(spec);
             link = getResult(page, provider.getBookLinkFromResultExpression());
         }

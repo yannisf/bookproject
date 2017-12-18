@@ -1,6 +1,7 @@
 /*.iml
 /.idea
 /.gradle
+*.log
 build
 target
 out

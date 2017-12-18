@@ -68,8 +68,9 @@ public class TidyScraper implements Scraper {
     }
 
 
-    private String getBookLink(BookInformationProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
+    String getBookLink(BookInformationProvider provider, String isbn) throws IOException, XPathExpressionException, ScraperException {
         String spec = String.format(provider.getSearchFormat(), isbn);
+        LOG.debug("Searching with ISBN [{}]: [{}]", isbn, spec);
         URL searchUrl = new URL(spec);
         Tidy tidy = createTidy();
         Document searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
@@ -78,6 +79,7 @@ public class TidyScraper implements Scraper {
         if (StringUtils.isBlank(link) && isbnService.isIsbn10(isbn)) {
             isbn = isbnService.convertToIsbn13(isbn);
             spec = String.format(provider.getSearchFormat(), isbn);
+            LOG.debug("2nd try with ISBN13 [{}]: [{}]", isbn, spec);
             searchUrl = new URL(spec);
             searchDocument = tidy.parseDOM(searchUrl.openStream(), null);
             link = getResult(searchDocument, provider.getBookLinkFromResultExpression());

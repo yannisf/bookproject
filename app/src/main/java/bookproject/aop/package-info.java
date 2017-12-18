@@ -1,4 +1,4 @@
 /**
- * Aspects
+ * Aspects.
  */
 package bookproject.aop;

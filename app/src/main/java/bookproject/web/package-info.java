@@ -1,4 +1,4 @@
 /**
- * Web layer server components
+ * Web layer server components.
  */
 package bookproject.web;

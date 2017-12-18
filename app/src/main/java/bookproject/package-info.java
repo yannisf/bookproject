@@ -1,4 +1,4 @@
 /**
- * Application root package
+ * Application root package.
  */
 package bookproject;

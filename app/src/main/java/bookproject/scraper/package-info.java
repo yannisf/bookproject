@@ -1,4 +1,4 @@
 /**
- * Scraping related
+ * Scraping related.
  */
 package bookproject.scraper;

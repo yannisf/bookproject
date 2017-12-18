@@ -1,4 +1,4 @@
 /**
- * Book information providers
+ * Book information providers.
  */
 package bookproject.scraper.provider;

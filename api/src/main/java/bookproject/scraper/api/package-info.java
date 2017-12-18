@@ -1,4 +1,4 @@
 /**
- * Scraping API
+ * Scraping API.
  */
 package bookproject.scraper.api;

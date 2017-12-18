@@ -13,6 +13,7 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath 'com.bmuschko:gradle-cargo-plugin:2.2.3'
         classpath 'gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17'
+        classpath "gradle.plugin.at.comm_unity.gradle.plugins:jpamodelgen-plugin:1.1.4"
     }
 }
 

@@ -1,7 +1,21 @@
 apply plugin: 'java'
+apply plugin: 'at.comm_unity.gradle.plugins.jpamodelgen'
+
+sourceSets {
+    jpaModelgen {
+        compileClasspath = configurations.jpaModelgenCompile
+    }
+}
+
+jpaModelgen {
+    library = "org.hibernate:hibernate-jpamodelgen"
+    jpaModelgenSourcesDir = "src/generated/java"
+}
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    jpaModelgenCompile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    jpaModelgenCompile sourceSets.main.output
 }
 
 dependencyManagement {

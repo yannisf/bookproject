@@ -2,9 +2,8 @@ apply plugin: 'java'
 apply plugin: 'at.comm_unity.gradle.plugins.jpamodelgen'
 
 sourceSets {
-    jpaModelgen {
-        compileClasspath = configurations.jpaModelgenCompile
-    }
+    main { java.srcDirs = ['src/main/java', 'src/generated/java'] }
+    jpaModelgen { compileClasspath = configurations.jpaModelgenCompile }
 }
 
 jpaModelgen {

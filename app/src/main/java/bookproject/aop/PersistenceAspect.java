@@ -2,6 +2,7 @@ package bookproject.aop;
 
 import bookproject.persistence.BookInformation;
 import bookproject.persistence.repository.BookInformationRepository;
+import bookproject.persistence.specifications.BookInformationSpecs;
 import bookproject.scraper.BookInformationMapper;
 import bookproject.scraper.api.BookInformationProvider;
 import bookproject.scraper.api.BookInformationValue;
@@ -17,9 +18,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 /**
  * Persistence cross cutting concerns.
@@ -75,14 +79,17 @@ public class PersistenceAspect {
         }
     }
 
-    private Optional<BookInformation> findOptional(String validIsbn, String provider) throws ScraperException {
-        if (isbnService.isIsbn10(validIsbn)) {
-            return bookInformationRepository.findByIsbnAndProvider(validIsbn, provider);
-        } else if (isbnService.isIsbn13(validIsbn)) {
-            return bookInformationRepository.findByIsbn13AndProvider(validIsbn, provider);
+    private Optional<BookInformation> findOptional(String isbn, String provider) throws ScraperException {
+        Specification<BookInformation> isbnSpec;
+        if (isbnService.isIsbn10(isbn)) {
+            isbnSpec = BookInformationSpecs.isbn10(isbn);
+        } else if (isbnService.isIsbn13(isbn)) {
+            isbnSpec = BookInformationSpecs.isbn13(isbn);
         } else {
             throw new ScraperException(ErrorCode.INVALID_ISBN);
         }
+
+        return bookInformationRepository.findOne(where(isbnSpec.and(BookInformationSpecs.provider(provider))));
     }
 
     /**
